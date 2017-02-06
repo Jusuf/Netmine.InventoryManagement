@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using Netmine.InventoryManager.Web.Data;
 using Netmine.InventoryManager.Web.Models;
 using Netmine.InventoryManager.Web.Services;
+using Newtonsoft.Json.Serialization;
 
 namespace Netmine.InventoryManager.Web
 {
@@ -52,6 +53,15 @@ namespace Netmine.InventoryManager.Web
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+
+            services.AddMvc().AddJsonOptions(options =>
+            {
+                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            });
+
+            //Make Dependency Injection work
+            services.AddSingleton<ITodosRepository, TodosRepository>();
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,29 +70,34 @@ namespace Netmine.InventoryManager.Web
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
-                app.UseBrowserLink();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-            }
 
+
+            //if (env.IsDevelopment())
+            //{
+            //    app.UseDeveloperExceptionPage();
+            //    app.UseDatabaseErrorPage();
+            //    app.UseBrowserLink();
+            //}
+            //else
+            //{
+            //    app.UseExceptionHandler("/Home/Error");
+            //}
+
+            app.UseDefaultFiles();
             app.UseStaticFiles();
 
             app.UseIdentity();
 
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
+            //app.UseMvc(routes =>
+            //{
+            //    routes.MapRoute(
+            //        name: "default",
+            //        template: "{controller=Home}/{action=Index}/{id?}");
+            //});
+
+            app.UseMvc();
         }
     }
 }

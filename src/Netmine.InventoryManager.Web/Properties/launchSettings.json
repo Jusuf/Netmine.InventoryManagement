@@ -3,7 +3,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:50498/",
+      "applicationUrl": "http://localhost:64889/",
       "sslPort": 0
     }
   },
@@ -11,14 +11,15 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
+      "launchUrl": "",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Netmine.InventoryManager.Web": {
+    "AureliaTodoApp": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "http://localhost:5000",
+      "launchUrl": "http://localhost:5000/api/todos",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
