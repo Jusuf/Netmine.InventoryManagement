@@ -5,10 +5,8 @@ using System.Threading.Tasks;
 
 namespace Netmine.InventoryManager.Web.Models
 {
-    public class Article
+    public class Article : BaseModel
     {
-        public Guid Id { get; set; }
-
         public string Name { get; set; }
 
         public int Number { get; set; }
