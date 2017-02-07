@@ -1,4 +1,4 @@
-﻿{
+{
   "userSecretsId": "aspnet-Netmine.InventoryManager.Web-5d9709a4-c298-4572-953b-795932c05b77",
 
   "dependencies": {
@@ -43,7 +43,8 @@
     "Microsoft.VisualStudio.Web.CodeGenerators.Mvc": {
       "version": "1.0.0-preview2-final",
       "type": "build"
-    }
+    },
+    "Netmine.InventoryManager.Data": "1.0.0-*"
   },
 
   "tools": {
