@@ -13,6 +13,7 @@ using Netmine.InventoryManager.Web.Data;
 using Netmine.InventoryManager.Web.Models;
 using Netmine.InventoryManager.Web.Services;
 using Newtonsoft.Json.Serialization;
+using Netmine.InventoryManager.Data;
 
 namespace Netmine.InventoryManager.Web
 {
@@ -43,6 +44,9 @@ namespace Netmine.InventoryManager.Web
             // Add framework services.
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            
+            // Generic repository
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -57,8 +61,6 @@ namespace Netmine.InventoryManager.Web
                 options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             });
 
-            //Make Dependency Injection work
-            services.AddSingleton<ITodosRepository, TodosRepository>();
             services.AddMvc();
         }
 
@@ -67,8 +69,6 @@ namespace Netmine.InventoryManager.Web
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-
-
 
             if (env.IsDevelopment())
             {
@@ -83,7 +83,6 @@ namespace Netmine.InventoryManager.Web
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
-
             app.UseIdentity();
 
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
@@ -95,7 +94,7 @@ namespace Netmine.InventoryManager.Web
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            app.UseMvc();
+            //app.UseMvc();
         }
     }
 }
