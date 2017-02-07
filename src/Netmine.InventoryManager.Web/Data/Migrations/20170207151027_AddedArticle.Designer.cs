@@ -8,9 +8,10 @@ using Netmine.InventoryManager.Web.Data;
 namespace Netmine.InventoryManager.Web.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170207151027_AddedArticle")]
+    partial class AddedArticle
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")
@@ -138,12 +139,6 @@ namespace Netmine.InventoryManager.Web.Data.Migrations
 
                     b.Property<bool>("EmailConfirmed");
 
-                    b.Property<string>("FirstName");
-
-                    b.Property<string>("ImageUrl");
-
-                    b.Property<string>("LastName");
-
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
@@ -183,12 +178,6 @@ namespace Netmine.InventoryManager.Web.Data.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreatedDate");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<DateTime>("ModifiedDate");
 
                     b.Property<string>("Name");
 
