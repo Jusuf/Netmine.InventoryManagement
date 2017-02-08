@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Netmine.InventoryManager.Web.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,11 +9,11 @@ namespace Netmine.InventoryManager.Web.Repository
 {
     public class MainRepository<TEntity, Tkey> : IMainRepository<TEntity, Tkey> where TEntity : class
     {
-        private readonly DbContext context;
+        private readonly ApplicationDbContext context;
 
         private readonly DbSet<TEntity> dbSet;
 
-        public MainRepository(DbContext context)
+        public MainRepository(ApplicationDbContext context)
         {
             this.context = context;
             dbSet = context.Set<TEntity>();

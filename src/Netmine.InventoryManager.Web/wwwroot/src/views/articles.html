@@ -1,0 +1,28 @@
+﻿<template>
+    <require from="../../src/components/date-format"></require>
+    <require from="../../src/components/date-picker"></require>
+    
+    <div class="panel panel-default">
+        <div class="panel-heading">Todo List</div>
+        <table class="table">
+            <tr>
+                <th>Namn</th>
+                <th>ArtNr</th>
+            </tr>
+            <tr repeat.for="article of articles">
+                <td>${article.name}</td>
+                <td>${article.number}</td>
+            </tr>
+        </table>
+        <hr />
+        <form>
+            <div class="form-group">
+                <input type="text" value.bind="articleName" class="form-control" placeholder="Ange artikelnamn">
+            </div>
+            <div class="form-group">
+                <input type="text" value.bind="articleNumber" class="form-control" placeholder="Ange artikelnummer">
+            </div>
+            <button click.delegate="addNewArticle()" class="btn btn-default">Lägg till artikel</button>
+        </form>
+    </div>
+</template>

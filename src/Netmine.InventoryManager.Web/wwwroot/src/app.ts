@@ -13,8 +13,7 @@ export class App {
         config.title = "AureliaTSapp";
         config.map([
             { route: ["", "todos"], moduleId: "./views/todos", nav: true, title: "Todos" },
-
-
+            { route: "article", name: "article", moduleId: "./views/articles", nav: true, title: "Articles" }
         ]);
     }
 }

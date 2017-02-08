@@ -1,16 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Netmine.InventoryManager.Web.Data;
 using Netmine.InventoryManager.Web.Models;
-using Netmine.InventoryManager.Web.Repository;
-using Netmine.InventoryManager.Web.Repository.EntityRepositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Netmine.InventoryManager.Web.Repository.EntityRepositories
 {
-    public class ArticleRepository : MainRepository<Article, int>, IArticleRepository
+    public class ArticleRepository : MainRepository<Article, Guid>, IArticleRepository
     {
-        public ArticleRepository(DbContext context) : base(context) { }
+        public ArticleRepository(ApplicationDbContext context) : base(context) { }
 
         public IEnumerable<Article> FindByName(string name)
         {
