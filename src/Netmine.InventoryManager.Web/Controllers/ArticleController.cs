@@ -15,19 +15,17 @@ namespace Netmine.InventoryManager.Web.Controllers
     {
         public IArticleRepository ArticleRepository { get; set; }
 
-        public ArticleController([FromServices] IArticleRepository repository)
+        public ArticleController([FromServices] IArticleRepository articleRepository)
         {
-            ArticleRepository = repository;
+            ArticleRepository = articleRepository;
         }
 
-        // GET api/todos
         [HttpGet]
         public IEnumerable<Article> Get()
         {
             return ArticleRepository.GetAll();
         }
 
-        // GET api/todos/2
         [HttpGet("{id}")]
         //[Route("{id}", Name = "GetTodoItemByIdRoute")]
         public Article Get(Guid id)
@@ -75,16 +73,17 @@ namespace Netmine.InventoryManager.Web.Controllers
         [HttpPut]
         public IActionResult Put([FromBody] Article article)
         {
-            if (!ModelState.IsValid) return BadRequest();
+            //if (!ModelState.IsValid) return BadRequest();
 
             try
             {
                 ArticleRepository.Update(article);
+                ArticleRepository.Save();
                 var url = Url.RouteUrl("", new { id = article.Id }, Request.Scheme,
                 Request.Host.ToUriComponent());
                 return Created(url, article);
             }
-            catch
+            catch(Exception e)
             {
                 return BadRequest();
             }

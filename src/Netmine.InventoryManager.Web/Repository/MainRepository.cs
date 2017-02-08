@@ -43,9 +43,7 @@ namespace Netmine.InventoryManager.Web.Repository
 
         public void Update(TEntity entity)
         {
-            dbSet.Attach(entity);
-
-            context.Entry(entity).State = EntityState.Modified;
+            dbSet.Attach(entity).State = EntityState.Modified;
         }
 
         public IEnumerable<TEntity> Search(Expression<Func<TEntity, bool>> predicate)

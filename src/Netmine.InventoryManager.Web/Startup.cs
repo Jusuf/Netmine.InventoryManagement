@@ -58,9 +58,10 @@ namespace Netmine.InventoryManager.Web
                 options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             });
 
-            //Make Dependency Injection work
-            services.AddSingleton<ITodosRepository, TodosRepository>();
-            services.AddSingleton<IArticleRepository, ArticleRepository>();
+            ////Make Dependency Injection work
+            services.AddTransient<ITodosRepository, TodosRepository>();
+            //services.AddSingleton<IArticleRepository, ArticleRepository>();
+            services.AddTransient<IArticleRepository, ArticleRepository>();
             services.AddMvc();
         }
 

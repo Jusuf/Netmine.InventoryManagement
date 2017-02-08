@@ -9,7 +9,7 @@
                 <th>Namn</th>
                 <th>ArtNr</th>
             </tr>
-            <tr repeat.for="article of articles">
+            <tr repeat.for="article of articles" click.delegate="editArticle(article)">
                 <td>${article.name}</td>
                 <td>${article.number}</td>
             </tr>
@@ -22,7 +22,7 @@
             <div class="form-group">
                 <input type="text" value.bind="articleNumber" class="form-control" placeholder="Ange artikelnummer">
             </div>
-            <button click.delegate="addNewArticle()" class="btn btn-default">Lägg till artikel</button>
+            <button click.delegate="saveArticle()" class="btn btn-default">Spara artikel</button>
         </form>
     </div>
 </template>

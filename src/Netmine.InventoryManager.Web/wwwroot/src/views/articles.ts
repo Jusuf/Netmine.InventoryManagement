@@ -6,6 +6,7 @@ export class Articles {
     articles: Array<IArticle>;
     articleName: string;
     articleNumber: number;
+    articleId: string;
 
     constructor(private http: HttpClient) { }
 
@@ -13,19 +14,39 @@ export class Articles {
         this.fetchAllArticles();
     }
 
-    addNewArticle() {
-        const newArticle = {
-            Name: this.articleName,
-            Number: this.articleNumber
-        };
-        this.http.fetch("http://localhost:64889/api/article/", {
-            method: "post",
-            body: json(newArticle)
+    saveArticle() {
 
-        }).then(response => {
-            this.fetchAllArticles();
-            console.log("article added: ", response);
-        });
+        const article = {
+            Name: this.articleName,
+            Number: this.articleNumber,
+            Id: this.articleId
+        };
+
+        if (article.Id) {
+            this.http.fetch("http://localhost:64889/api/article/", {
+                method: "put",
+                body: json(article)
+
+            }).then(response => {
+                this.fetchAllArticles();
+                console.log("article edited: ", response);
+
+                this.articleName = "";
+                this.articleNumber = null;
+                this.articleId = "";
+                });
+          
+        }
+        else {
+            this.http.fetch("http://localhost:64889/api/article/", {
+                method: "post",
+                body: json(article)
+
+            }).then(response => {
+                this.fetchAllArticles();
+                console.log("article added: ", response);
+            });
+        }
     }
 
     fetchAllArticles() {
@@ -40,17 +61,26 @@ export class Articles {
             { method: "delete" }).then(() => { this.fetchAllArticles(); });
     }
 
-    //markTodoItemAsDone(todoItem: ITodoItem) {
-    //    if (todoItem.isCompleted) return;
-    //    this.http.fetch(`http://localhost:64889/api/todos/${todoItem.id}`,
-    //        { method: "put" }).then(() => { this.fetchAllTodoItems(); });
+    editArticle(article: IArticle) {
+        this.articleName = article.name;
+        this.articleNumber = article.number;
+        this.articleId = article.id;
+    }
+
+    //markTodoItemAsDone(article: IArticle) {
+    //    if (article.id)
+    //    {
+    //        this.http.fetch(`http://localhost:64889/api/todos/${article.id}`,
+    //            { method: "put" }).then(() => { this.fetchAllArticles(); });
+    //    }
+        
     //}
 }
 
 export interface IArticle {
     id: string;
     name: string;
-    number: string;
+    number: number;
 }
 
 //activate() {

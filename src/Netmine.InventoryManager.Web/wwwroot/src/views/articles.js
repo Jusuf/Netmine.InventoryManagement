@@ -25,18 +25,33 @@ System.register(["aurelia-framework", "aurelia-fetch-client"], function(exports_
                 activate() {
                     this.fetchAllArticles();
                 }
-                addNewArticle() {
-                    const newArticle = {
+                saveArticle() {
+                    const article = {
                         Name: this.articleName,
-                        Number: this.articleNumber
+                        Number: this.articleNumber,
+                        Id: this.articleId
                     };
-                    this.http.fetch("http://localhost:64889/api/article/", {
-                        method: "post",
-                        body: aurelia_fetch_client_1.json(newArticle)
-                    }).then(response => {
-                        this.fetchAllArticles();
-                        console.log("article added: ", response);
-                    });
+                    if (article.Id) {
+                        this.http.fetch("http://localhost:64889/api/article/", {
+                            method: "put",
+                            body: aurelia_fetch_client_1.json(article)
+                        }).then(response => {
+                            this.fetchAllArticles();
+                            console.log("article edited: ", response);
+                            this.articleName = "";
+                            this.articleNumber = null;
+                            this.articleId = "";
+                        });
+                    }
+                    else {
+                        this.http.fetch("http://localhost:64889/api/article/", {
+                            method: "post",
+                            body: aurelia_fetch_client_1.json(article)
+                        }).then(response => {
+                            this.fetchAllArticles();
+                            console.log("article added: ", response);
+                        });
+                    }
                 }
                 fetchAllArticles() {
                     return this.http.fetch("http://localhost:64889/api/article").
@@ -46,6 +61,11 @@ System.register(["aurelia-framework", "aurelia-fetch-client"], function(exports_
                 }
                 deleteArticle(articleId) {
                     this.http.fetch(`http://localhost:64889/api/article/${articleId}`, { method: "delete" }).then(() => { this.fetchAllArticles(); });
+                }
+                editArticle(article) {
+                    this.articleName = article.name;
+                    this.articleNumber = article.number;
+                    this.articleId = article.id;
                 }
             };
             Articles = __decorate([
