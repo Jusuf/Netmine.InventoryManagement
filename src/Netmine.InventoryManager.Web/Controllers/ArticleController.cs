@@ -7,6 +7,8 @@ using Netmine.InventoryManager.Web.Data;
 using Netmine.InventoryManager.Web.Models;
 using System.Globalization;
 using Netmine.InventoryManager.Web.Repository.EntityRepositories;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Netmine.InventoryManager.Web.ViewModels;
 
 namespace Netmine.InventoryManager.Web.Controllers
 {
@@ -23,7 +25,7 @@ namespace Netmine.InventoryManager.Web.Controllers
         [HttpGet]
         public IEnumerable<Article> Get()
         {
-            return ArticleRepository.GetAll();
+            return ArticleRepository.Query().ToList();
         }
 
         [HttpGet("{id}")]
@@ -34,9 +36,19 @@ namespace Netmine.InventoryManager.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] Article article)
+        public IActionResult Post([FromBody] ArticleViewModel model)
         {
             if (!ModelState.IsValid) return BadRequest();
+
+            var createdDate = DateTime.Now;
+
+            Article article = new Article()
+            {
+                Name = model.Name,
+                Number = Int32.Parse(model.Number),
+                CreatedDate = createdDate,
+                ModifiedDate = createdDate
+            };
 
             try
             {
@@ -61,7 +73,9 @@ namespace Netmine.InventoryManager.Web.Controllers
             {
                 var articleId = Guid.Parse(id);
                 if (ArticleRepository.GetById(articleId) == null) return NotFound();
-                ArticleRepository.Delete(articleId);
+                Article article = ArticleRepository.GetById(articleId);
+                article.IsDeleted = true;
+                ArticleRepository.Save();
                 return new StatusCodeResult(200);
             }
             catch (Exception)
@@ -73,8 +87,9 @@ namespace Netmine.InventoryManager.Web.Controllers
         [HttpPut]
         public IActionResult Put([FromBody] Article article)
         {
-            //if (!ModelState.IsValid) return BadRequest();
+            if (!ModelState.IsValid) return BadRequest();
 
+            article.ModifiedDate = DateTime.Now;
             try
             {
                 ArticleRepository.Update(article);

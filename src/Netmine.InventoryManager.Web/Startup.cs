@@ -60,7 +60,6 @@ namespace Netmine.InventoryManager.Web
 
             ////Make Dependency Injection work
             services.AddTransient<ITodosRepository, TodosRepository>();
-            //services.AddSingleton<IArticleRepository, ArticleRepository>();
             services.AddTransient<IArticleRepository, ArticleRepository>();
             services.AddMvc();
         }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Netmine.InventoryManager.Web.Data;
+using Netmine.InventoryManager.Web.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Linq.Expressions;
 
 namespace Netmine.InventoryManager.Web.Repository
 {
-    public class MainRepository<TEntity, Tkey> : IMainRepository<TEntity, Tkey> where TEntity : class
+    public class MainRepository<TEntity, Tkey> : IMainRepository<TEntity, Tkey> where TEntity : BaseModel
     {
         private readonly ApplicationDbContext context;
 
@@ -17,6 +18,19 @@ namespace Netmine.InventoryManager.Web.Repository
         {
             this.context = context;
             dbSet = context.Set<TEntity>();
+        }
+
+        public IQueryable<TEntity> Query()
+        {
+            return this.context
+                .Set<TEntity>()
+                .Where(e => e.IsDeleted == false);
+        }
+
+        public IQueryable<TEntity> QueryIncludeDeleted()
+        {
+            return this.context
+                .Set<TEntity>();
         }
 
         public IQueryable<TEntity> GetAll()
@@ -37,7 +51,6 @@ namespace Netmine.InventoryManager.Web.Repository
         public void Delete(Tkey id)
         {
             var entityToRemove = dbSet.Find(id);
-
             dbSet.Remove(entityToRemove);
         }
 

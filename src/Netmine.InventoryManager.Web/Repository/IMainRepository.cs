@@ -7,6 +7,10 @@ namespace Netmine.InventoryManager.Web.Repository
 {
     public interface IMainRepository<TEntity, in Tkey> : IDisposable
     {
+        IQueryable<TEntity> Query();
+
+        IQueryable<TEntity> QueryIncludeDeleted();
+
         IQueryable<TEntity> GetAll();
 
         TEntity GetById(Tkey id);

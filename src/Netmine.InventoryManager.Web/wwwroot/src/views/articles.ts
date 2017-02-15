@@ -16,7 +16,7 @@ export class Articles {
 
     saveArticle() {
 
-        const article = {
+        let article = {
             Name: this.articleName,
             Number: this.articleNumber,
             Id: this.articleId
@@ -31,13 +31,12 @@ export class Articles {
                 this.fetchAllArticles();
                 console.log("article edited: ", response);
 
-                this.articleName = "";
-                this.articleNumber = null;
-                this.articleId = "";
+                this.clearArticle();
                 });
           
         }
         else {
+            article.Id = "";
             this.http.fetch("http://localhost:64889/api/article/", {
                 method: "post",
                 body: json(article)
@@ -45,6 +44,8 @@ export class Articles {
             }).then(response => {
                 this.fetchAllArticles();
                 console.log("article added: ", response);
+                debugger;
+                this.clearArticle();
             });
         }
     }
@@ -67,14 +68,13 @@ export class Articles {
         this.articleId = article.id;
     }
 
-    //markTodoItemAsDone(article: IArticle) {
-    //    if (article.id)
-    //    {
-    //        this.http.fetch(`http://localhost:64889/api/todos/${article.id}`,
-    //            { method: "put" }).then(() => { this.fetchAllArticles(); });
-    //    }
-        
-    //}
+    clearArticle() {
+        debugger;
+        this.articleName = "";
+        this.articleNumber = null;
+        this.articleId = "";
+    }
+
 }
 
 export interface IArticle {
@@ -83,9 +83,3 @@ export interface IArticle {
     number: number;
 }
 
-//activate() {
-//    return this.http.fetch("http://localhost:64889/api/values").
-//        then(response => response.json()).then(data => {
-//            this.values = data;
-//        });
-//}

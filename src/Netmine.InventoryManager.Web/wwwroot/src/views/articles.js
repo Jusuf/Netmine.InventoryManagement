@@ -26,7 +26,7 @@ System.register(["aurelia-framework", "aurelia-fetch-client"], function(exports_
                     this.fetchAllArticles();
                 }
                 saveArticle() {
-                    const article = {
+                    let article = {
                         Name: this.articleName,
                         Number: this.articleNumber,
                         Id: this.articleId
@@ -38,18 +38,19 @@ System.register(["aurelia-framework", "aurelia-fetch-client"], function(exports_
                         }).then(response => {
                             this.fetchAllArticles();
                             console.log("article edited: ", response);
-                            this.articleName = "";
-                            this.articleNumber = null;
-                            this.articleId = "";
+                            this.clearArticle();
                         });
                     }
                     else {
+                        article.Id = "";
                         this.http.fetch("http://localhost:64889/api/article/", {
                             method: "post",
                             body: aurelia_fetch_client_1.json(article)
                         }).then(response => {
                             this.fetchAllArticles();
                             console.log("article added: ", response);
+                            debugger;
+                            this.clearArticle();
                         });
                     }
                 }
@@ -67,6 +68,12 @@ System.register(["aurelia-framework", "aurelia-fetch-client"], function(exports_
                     this.articleNumber = article.number;
                     this.articleId = article.id;
                 }
+                clearArticle() {
+                    debugger;
+                    this.articleName = "";
+                    this.articleNumber = null;
+                    this.articleId = "";
+                }
             };
             Articles = __decorate([
                 aurelia_framework_1.inject(aurelia_fetch_client_1.HttpClient, aurelia_fetch_client_1.json)
@@ -75,10 +82,4 @@ System.register(["aurelia-framework", "aurelia-fetch-client"], function(exports_
         }
     }
 });
-//activate() {
-//    return this.http.fetch("http://localhost:64889/api/values").
-//        then(response => response.json()).then(data => {
-//            this.values = data;
-//        });
-//} 
 //# sourceMappingURL=articles.js.map
