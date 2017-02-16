@@ -53,7 +53,6 @@ System.register(["aurelia-framework", "aurelia-fetch-client", 'aurelia-router'],
                         }).then(response => {
                             this.fetchAllArticles();
                             console.log("article added: ", response);
-                            debugger;
                             this.clearArticle();
                         });
                     }
@@ -73,13 +72,11 @@ System.register(["aurelia-framework", "aurelia-fetch-client", 'aurelia-router'],
                     this.articleId = article.id;
                 }
                 clearArticle() {
-                    debugger;
                     this.articleName = "";
                     this.articleNumber = null;
                     this.articleId = "";
                 }
                 showArticleDetails(articleId) {
-                    debugger;
                     this.router.navigateToRoute("articleDetails", { id: articleId });
                 }
             };

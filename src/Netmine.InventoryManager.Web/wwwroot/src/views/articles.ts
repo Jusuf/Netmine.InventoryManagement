@@ -75,7 +75,6 @@ export class Articles {
     }
 
     clearArticle() {
-        debugger;
         this.articleName = "";
         this.articleNumber = null;
         this.articleId = "";

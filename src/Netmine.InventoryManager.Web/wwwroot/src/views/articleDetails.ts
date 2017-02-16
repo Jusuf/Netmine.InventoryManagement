@@ -9,12 +9,10 @@ export class ArticleDetail {
     constructor(private http: HttpClient) { }
 
     activate(article) {
-        debugger;
         this.getArticle(article.id);
     }
    
     getArticle(id) {
-        debugger;
         return this.http.fetch(`http://localhost:64889/api/article/${id}`,
             { method: 'get' }).
             then(response => response.json()).then(data => {

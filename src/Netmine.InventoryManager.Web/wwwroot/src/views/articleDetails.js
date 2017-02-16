@@ -23,11 +23,9 @@ System.register(["aurelia-framework", "aurelia-fetch-client"], function(exports_
                     this.http = http;
                 }
                 activate(article) {
-                    debugger;
                     this.getArticle(article.id);
                 }
                 getArticle(id) {
-                    debugger;
                     return this.http.fetch(`http://localhost:64889/api/article/${id}`, { method: 'get' }).
                         then(response => response.json()).then(data => {
                         this.article = data;
