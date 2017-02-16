@@ -9,10 +9,11 @@ namespace Netmine.InventoryManager.Web.Models
 {
     public abstract class BaseModel
     {
+        [Required]
         public virtual Guid Id { get; set; }
-
+        [Required]
         private DateTime createdDate;
-
+        [Required]
         private DateTime modifiedDate;
 
         private bool isDeleted;

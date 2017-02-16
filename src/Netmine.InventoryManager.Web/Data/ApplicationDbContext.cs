@@ -10,7 +10,24 @@ namespace Netmine.InventoryManager.Web.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public DbSet<Address> Addresses { get; set; }
+
         public DbSet<Article> Articles { get; set; }
+
+        public DbSet<Cargo> Cargos { get; set; }
+
+        public DbSet<Order> Orders { get; set; }
+
+        public DbSet<OrderRow> OrderRows { get; set; }
+
+        public DbSet<Rack> Racks { get; set; }
+
+        public DbSet<Recipient> Recipients { get; set; }
+
+        public DbSet<Transaction> Transactions { get; set; }
+
+        public DbSet<UserRecipient> UserRecipients { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {

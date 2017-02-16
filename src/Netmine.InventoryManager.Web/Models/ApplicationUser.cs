@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace Netmine.InventoryManager.Web.Models
 {
@@ -10,7 +11,6 @@ namespace Netmine.InventoryManager.Web.Models
     public class ApplicationUser : IdentityUser
     {
         public string  FirstName { get; set; }
-
         public string LastName { get; set; }
 
         public string FullName

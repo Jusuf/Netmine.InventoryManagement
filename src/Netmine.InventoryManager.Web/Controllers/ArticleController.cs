@@ -45,7 +45,7 @@ namespace Netmine.InventoryManager.Web.Controllers
             Article article = new Article()
             {
                 Name = model.Name,
-                Number = Int32.Parse(model.Number),
+                Number = model.Number,
                 CreatedDate = createdDate,
                 ModifiedDate = createdDate
             };
