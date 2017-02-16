@@ -1,31 +1,59 @@
 ﻿import {inject} from "aurelia-framework";
 import {HttpClient, json} from "aurelia-fetch-client";
+import {Router} from 'aurelia-router';
 
-@inject(HttpClient, json)
+@inject(HttpClient, json, Router)
 export class Articles {
+
+    router: Router;
+
     articles: Array<IArticle>;
     articleName: string;
     articleNumber: number;
+    articleId: string;
 
-    constructor(private http: HttpClient) { }
+
+    constructor(private http: HttpClient, json, router: Router) {
+        this.router = router;
+        }
 
     activate() {
         this.fetchAllArticles();
     }
 
-    addNewArticle() {
-        const newArticle = {
-            Name: this.articleName,
-            Number: this.articleNumber
-        };
-        this.http.fetch("http://localhost:64889/api/article/", {
-            method: "post",
-            body: json(newArticle)
+    saveArticle() {
 
-        }).then(response => {
-            this.fetchAllArticles();
-            console.log("article added: ", response);
-        });
+        let article = {
+            Name: this.articleName,
+            Number: this.articleNumber,
+            Id: this.articleId
+        };
+
+        if (article.Id) {
+            this.http.fetch("http://localhost:64889/api/article/", {
+                method: "put",
+                body: json(article)
+
+            }).then(response => {
+                this.fetchAllArticles();
+                console.log("article edited: ", response);
+
+                this.clearArticle();
+                });
+          
+        }
+        else {
+            article.Id = "";
+            this.http.fetch("http://localhost:64889/api/article/", {
+                method: "post",
+                body: json(article)
+
+            }).then(response => {
+                this.fetchAllArticles();
+                console.log("article added: ", response);
+                this.clearArticle();
+            });
+        }
     }
 
     fetchAllArticles() {
@@ -40,22 +68,28 @@ export class Articles {
             { method: "delete" }).then(() => { this.fetchAllArticles(); });
     }
 
-    //markTodoItemAsDone(todoItem: ITodoItem) {
-    //    if (todoItem.isCompleted) return;
-    //    this.http.fetch(`http://localhost:64889/api/todos/${todoItem.id}`,
-    //        { method: "put" }).then(() => { this.fetchAllTodoItems(); });
-    //}
+    editArticle(article: IArticle) {
+        this.articleName = article.name;
+        this.articleNumber = article.number;
+        this.articleId = article.id;
+    }
+
+    clearArticle() {
+        this.articleName = "";
+        this.articleNumber = null;
+        this.articleId = "";
+    }
+
+    showArticleDetails(articleId) {
+        this.router.navigateToRoute("articleDetails", { id: articleId });
+    }
+   
+
 }
 
 export interface IArticle {
     id: string;
     name: string;
-    number: string;
+    number: number;
 }
 
-//activate() {
-//    return this.http.fetch("http://localhost:64889/api/values").
-//        then(response => response.json()).then(data => {
-//            this.values = data;
-//        });
-//}
