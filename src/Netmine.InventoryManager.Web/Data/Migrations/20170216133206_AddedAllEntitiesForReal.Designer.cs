@@ -8,9 +8,10 @@ using Netmine.InventoryManager.Web.Data;
 namespace Netmine.InventoryManager.Web.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170216133206_AddedAllEntitiesForReal")]
+    partial class AddedAllEntitiesForReal
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")
@@ -228,13 +229,13 @@ namespace Netmine.InventoryManager.Web.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<decimal>("Amount");
+                    b.Property<double>("Amount");
 
                     b.Property<Guid>("ArticleId");
 
                     b.Property<string>("BatchNumber");
 
-                    b.Property<decimal>("BlockedAmount");
+                    b.Property<double>("BlockedAmount");
 
                     b.Property<DateTime>("CreatedDate");
 
@@ -287,7 +288,7 @@ namespace Netmine.InventoryManager.Web.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<decimal>("Amount");
+                    b.Property<double>("Amount");
 
                     b.Property<Guid>("ArticleId");
 
@@ -357,7 +358,7 @@ namespace Netmine.InventoryManager.Web.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<decimal>("Amount");
+                    b.Property<double>("Amount");
 
                     b.Property<Guid>("ArticleId");
 

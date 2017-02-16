@@ -1,14 +1,21 @@
 ﻿import {inject} from "aurelia-framework";
 import {HttpClient, json} from "aurelia-fetch-client";
+import {Router} from 'aurelia-router';
 
-@inject(HttpClient, json)
+@inject(HttpClient, json, Router)
 export class Articles {
+
+    router: Router;
+
     articles: Array<IArticle>;
     articleName: string;
     articleNumber: number;
     articleId: string;
 
-    constructor(private http: HttpClient) { }
+
+    constructor(private http: HttpClient, json, router: Router) {
+        this.router = router;
+        }
 
     activate() {
         this.fetchAllArticles();
@@ -44,7 +51,6 @@ export class Articles {
             }).then(response => {
                 this.fetchAllArticles();
                 console.log("article added: ", response);
-                debugger;
                 this.clearArticle();
             });
         }
@@ -69,11 +75,15 @@ export class Articles {
     }
 
     clearArticle() {
-        debugger;
         this.articleName = "";
         this.articleNumber = null;
         this.articleId = "";
     }
+
+    showArticleDetails(articleId) {
+        this.router.navigateToRoute("articleDetails", { id: articleId });
+    }
+   
 
 }
 
