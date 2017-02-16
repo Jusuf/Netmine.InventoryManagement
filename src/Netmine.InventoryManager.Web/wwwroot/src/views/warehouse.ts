@@ -30,7 +30,7 @@ export class Articles {
         };
 
         if (article.Id) {
-            this.http.fetch("http://localhost:64889/api/article/", {
+            this.http.fetch("http://localhost:64889/api/warehouse/", {
                 method: "put",
                 body: json(article)
 
@@ -57,7 +57,7 @@ export class Articles {
     }
 
     fetchAllArticles() {
-        return this.http.fetch("http://localhost:64889/api/article").
+        return this.http.fetch("http://localhost:64889/api/warehouse").
             then(response => response.json()).then(data => {
                 this.articles = data;
             });

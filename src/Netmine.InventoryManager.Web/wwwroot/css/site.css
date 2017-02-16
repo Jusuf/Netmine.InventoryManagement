@@ -157,3 +157,8 @@ nav.sidebar, .main{
     padding-left: 15px;
   }
   
+  .article-wrapper{
+      height: 75px;
+      border: 1px solid grey;
+      margin-top: 10px;
+  }
