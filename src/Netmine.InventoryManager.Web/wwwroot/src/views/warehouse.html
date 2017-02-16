@@ -1,0 +1,249 @@
+﻿<template>
+    <div class='row' id='content-wrapper'>
+        <div class='col-xs-12'>
+            <div class='row'>
+                <div class='col-sm-12'>
+                    <div class='page-header'>
+                        <h1 class='pull-left'>
+                            <i class='icon-inbox'></i>
+                            <span>Lager</span>
+                        </h1>
+                        <div class='pull-right'>
+                            <ul class='breadcrumb'>
+                                <li>
+                                    <i class='icon-bar-chart'></i>
+                                </li>
+                                <li class='separator'>
+                                    <i class='icon-angle-right'></i>
+                                </li>
+                                <li class='active'>Lager</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class='row'>
+                <div class='col-sm-8'>
+                    <div class='box blue-b'>
+                        <div class='box-header blue-background'>
+                            <div class='title'>
+                                Artiklar
+                            </div>
+                            <div class='actions'>
+                                <a class="btn btn-xs btn-link btn-sort" id="sortArtnum" href="#" title="Sortera på artikelnummer"><i class='icon-sort-by-alphabet'></i></a>
+                                <a class="btn btn-xs btn-link btn-sort" id="sortTitle" href="#" title="Sortera på benämning"><i class='icon-sort-by-attributes'></i></a>
+                                <a class="btn btn-xs btn-link btn-sort" id="sortAmount" href="#" title="Sortera på antal kilo i lager"><i class='icon-sort-by-order'></i></a>
+                            </div>
+                        </div>
+                        <div id="articles" class='box-content'>
+                            <% _.each(articles, function(item, i){ %>
+                            <div class="article-wrapper">
+                                <a data-toggle="collapse" data-target="#article-<%= item.id %>">
+                                    <div style="height: 75px;" class="article-row box-header box-statistic">
+                                        <span class="article_id" style="display: none;"><%= item.id %></span>
+                                        <h3 class="title text-contrast"><%= item.artnr %></h3>
+                                        <small><%= item.title %></small>
+                                        <div class="align-right" style="position: absolute; right: 15px; top: 10px; text-align: right;">
+                                            <small>Antal kilo i lager</small>
+                                            <% if (item.blocked > 0) { %>
+                                            <h3 class="title text-contrast"><span class="available-amount"><%= item.amount-item.blocked %></span> (<span class="blocked"><%= item.amount %></span>)</h3>
+                                            <% } else { %>
+                                            <h3 class="title text-contrast"><span class="available-amount"><%= item.amount %></span></h3>
+                                            <% } %>
+                                        </div>
+
+                                    </div>
+                                </a>
+                                <div id="article-<%= item.id %>" class="collapse box-content box-statistic-content">
+                                    <!-- PER ARTICLE FORM BEGIN HERE -->
+                                    <div class='' style="padding: 15px;">
+                                        <ul class='nav nav-tabs nav-tabs-simple'>
+                                            <li class='active'>
+                                                <a data-toggle="tab" class="red-border" href="#info-article-<%= item.id %>"><i class='icon-user text-contrast'></i>&nbsp;Info</a>
+                                            </li>
+                                            <li>
+                                                <a data-toggle="tab" id="orderTab" class="red-border" href="#order-article-<%= item.id %>"><i class='icon-comments text-contrast'></i>&nbsp;Beställ</a>
+                                            </li>
+                                            <li>
+                                                <a data-toggle="tab" class="red-border" href="#comments-article-<%= item.id %>"><i class='icon-bullhorn text-contrast'></i>&nbsp;Diskussion</a>
+                                            </li>
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div id="info-article-<%= item.id %>" class="tab-pane fade in active">
+                                                <p>
+                                                    <strong>Artikelnummer:</strong> <span class="controllbox-artnr"></span>
+                                                </p>
+                                                <p>
+                                                    <strong>Benämning:</strong> <span class="controllbox-title"></span>
+                                                </p>
+                                                <p>
+                                                    <i style="cursor: pointer;" title="Ta bort" class='icon-trash trashArticle'></i>
+                                                </p>
+                                                <div class='box bordered-box blue-border' style='margin-bottom:0;'>
+                                                    <div class='box-header blue-background'>
+                                                        <div class='title'>Lagersaldo</div>
+                                                        <div class='actions'>
+                                                            <a class="btn box-collapse btn-xs btn-link" href="#">
+                                                                <i></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class='box-content box-no-padding'>
+                                                        <div class='responsivee-table'>
+                                                            <div class='scrollablee-area'>
+                                                                <table class='table controllbox_cargo_table' style='margin-bottom:0;'>
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th style="display:none;"></th>
+                                                                            <th>Lagerplats</th>
+                                                                            <th>Batchnr</th>
+                                                                            <th>Antal kilo</th>
+                                                                            <th>Antal blockerat</th>
+                                                                            <th></th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody></tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="order-article-<%= item.id %>" class="tab-pane fade">
+                                                <form class='form' style='margin-bottom: 0;'>
+                                                    <div class='form-group'>
+                                                        <label>Antal kilo</label>
+                                                        <input class='form-control orderAmount' placeholder='Antal kilo' type='text'>
+                                                        <p class='help-block'>
+                                                            <small class='text-muted'>Var god ange antal kilo att beställa</small>
+                                                        </p>
+                                                    </div>
+                                                    <div class='form-actions'>
+                                                        <div class='row'>
+                                                            <div class='col-sm-4 col-xs-12'>
+                                                                <div class='btn btn-primary btn-lg orderAdd'>
+                                                                    <i class='icon-save'></i>
+                                                                    Lägg till på order
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div id="comments-article-<%= item.id %>" class="tab-pane fade chat">
+                                                <div class='scrollable' data-scrollable-height='300' data-scrollable-start='bottom'>
+                                                    <ul class='list-unstyled list-hover list-striped controllbox-messages-list'></ul>
+                                                </div>
+                                                <form class='form' style='margin-bottom: 0;'>
+                                                    <input class='form-control message_body' placeholder='Type your message here...' type='text'>
+                                                    <button class='btn btn-success addMessage' type='button'>
+                                                        <i class='icon-plus'></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <!-- PER ARTICLE FORM ENDS HERE -->
+                                    </div>
+                                </div>
+                            </div>
+                            <% }); %>
+                        </div>
+                    </div>
+                </div>
+                <div class='col-sm-4'>
+                    <div class='box bordered-box blue-border box-nomargin cart-box'>
+                        <div class='box-header blue-background'>
+                            <div class='title'>
+                                Din order
+                            </div>
+                            <div class='actions'>
+                                <a class="btn box-remove btn-xs btn-link" href="#"><i class='icon-remove'></i></a>
+                                <a class="btn box-collapse btn-xs btn-link" href="#"><i></i></a>
+                            </div>
+                        </div>
+                        <div class='box-content'>
+                            <ul class='nav nav-tabs nav-tabs-simple'>
+                                <li class="active">
+                                    <a data-toggle="tab" id="cartTab" class="red-border" href="#cart"><i class='icon-comments text-contrast'></i>&nbsp;Beställ</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div id="cart" class="tab-pane fade in active">
+                                    <div class='responsive-table'>
+                                        <div class='scrollable-area'>
+                                            <table id="orderbox_cargo_table" class='table' style='margin-bottom:0;'>
+                                                <thead>
+                                                    <tr>
+                                                        <th style="display:none;"></th>
+                                                        <th>Artikelnummer</th>
+                                                        <th>Antal kilo</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <form class='form' style='margin-bottom: 0;'>
+                                        <div class='form-group'>
+                                            <label>Mottagare</label>
+                                            <input class='typeahead form-control' id='orderTo' placeholder='Ange mottagare' type='text'>
+                                            <p class='help-block'>
+                                                <small class='text-muted'>Var god ange mottagare</small>
+                                            </p>
+                                        </div>
+                                        <div class='form-group'>
+                                            <label>Adress</label>
+                                            <input class='form-control' id='orderAddress' placeholder='Ange adress' type='text'>
+                                            <p class='help-block'>
+                                                <small class='text-muted'>Var god ange adress</small>
+                                            </p>
+                                        </div>
+                                        <div class='form-group'>
+                                            <label>Postnr</label>
+                                            <input class='form-control' id='orderZipcode' placeholder='Ange postnr' type='text'>
+                                            <p class='help-block'>
+                                                <small class='text-muted'>Var god ange postnr</small>
+                                            </p>
+                                        </div>
+                                        <div class='form-group'>
+                                            <label>Ort</label>
+                                            <input class='form-control' id='orderCity' placeholder='Ange ort' type='text'>
+                                            <p class='help-block'>
+                                                <small class='text-muted'>Var god ange ort</small>
+                                            </p>
+                                        </div>
+                                        <div class='form-group'>
+                                            <label>Email</label>
+                                            <input class='form-control' id='orderEmail' placeholder='Ange email' type='text'>
+                                            <p class='help-block'>
+                                                <small class='text-muted'>Var god ange email</small>
+                                            </p>
+                                        </div>
+                                        <div class='form-group'>
+                                            <label>Meddelande</label>
+                                            <textarea id="orderMessage" class="autosize form-control" rows="2" placeholder="Ange ett meddelande"></textarea>
+                                            <p class='help-block'>
+                                                <small class='text-muted'>Här kan du ange ett fritext meddelande</small>
+                                            </p>
+                                        </div>
+                                        <div class='form-actions'>
+                                            <div class='row'>
+                                                <div class='col-sm-4 col-xs-12'>
+                                                    <div id="sendOrder" class='btn btn-primary btn-lg'>
+                                                        <i class='icon-save'></i>
+                                                        Beställ
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

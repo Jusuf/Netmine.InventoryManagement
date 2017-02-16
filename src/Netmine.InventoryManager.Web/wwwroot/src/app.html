@@ -1,5 +1,7 @@
 ﻿<template>
     <require from="bootstrap/css/bootstrap.css"></require>
+    <require from="../css/theme-colors.css"></require>
+    <require from="../css/site.css"></require>
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -9,18 +11,59 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="#" class="pull-left"><img src="http://aurelia.io/images/main-logo.svg" /></a>
+                <a href="#" class="pull-left"><img class="logo" src="../images/logo.png" /></a>
             </div>
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <div class="collapse navbar-collapse" id="navbar-sifebar-1">
                 <ul class="nav navbar-nav">
+                    <li><a id="nav-toggle" data-toggle="collapse" data-target="#sidebar-menu" href="#">&#9776;</a></li>
                     <li class="active"><a href="#">Values <span class="sr-only">(current)</span></a></li>
                     <li><a href="#/article/">Artiklar</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="icon-cogs"><a href="#">Settings</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-right">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </nav>
+    <nav class="navbar navbar-default sidebar" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-sidebar-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Lager<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-inbox"></span></a></li>
+                    <li class="dropdown">
+                    <li><a href="#">Transaktioner<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-tasks"></span></a></li>
+                    </li>
+                    <li><a href="#">Transaktioner<span style="font-size:16px;" class="pull-right hidden-xs showopacity icon-truck"></span></a></li>
+                    <li><a href="#">Inställningar<span style="font-size:16px;" class="pull-right hidden-xs showopacity icon-cogs"></span></a></li>
                 </ul>
             </div>
         </div>
     </nav>
     <div class='container-fluid'>
-        <div class='col-xs-10'>
+        <div class='col-xs-9'>
             <router-view></router-view>
         </div>
     </div>

@@ -11,3 +11,4 @@
 /// <reference path="src/components/date-picker.js" />
 /// <reference path="src/views/articles.js" />
 /// <reference path="src/views/todos.js" />
+/// <reference path="src/views/warehouse.js" />
