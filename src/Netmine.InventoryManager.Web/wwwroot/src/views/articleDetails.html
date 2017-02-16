@@ -1,0 +1,21 @@
+﻿<template>
+    <require from="../../src/components/date-format"></require>
+    
+    <div class="panel panel-default">
+        <div class="panel-heading">Artikel detaljer</div>
+        <table class="table">
+            <tr>
+                <th>Namn</th>
+                <th>ArtNr</th>
+                <th>Skapad</th>
+                <th>redigerad</th>
+            </tr>
+            <tr>
+                <td>${article.name}</td>
+                <td>${article.number}</td>
+                <td>${article.createdDate}</td>
+                <td>${article.modifiedDate}</td>
+            </tr>
+        </table>
+    </div>
+</template>

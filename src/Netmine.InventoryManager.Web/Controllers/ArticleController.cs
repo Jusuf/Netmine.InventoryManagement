@@ -28,8 +28,8 @@ namespace Netmine.InventoryManager.Web.Controllers
             return ArticleRepository.Query().ToList();
         }
 
-        [HttpGet("{id}")]
-        //[Route("{id}", Name = "GetTodoItemByIdRoute")]
+        [HttpGet]
+        [Route("{id}")]
         public Article Get(Guid id)
         {
             return ArticleRepository.GetById(id);

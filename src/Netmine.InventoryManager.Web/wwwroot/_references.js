@@ -9,5 +9,6 @@
 /// <reference path="src/app.js" />
 /// <reference path="src/components/date-format.js" />
 /// <reference path="src/components/date-picker.js" />
+/// <reference path="src/views/articledetails.js" />
 /// <reference path="src/views/articles.js" />
 /// <reference path="src/views/todos.js" />

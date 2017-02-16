@@ -13,6 +13,11 @@
                 <td>${article.name}</td>
                 <td>${article.number}</td>
                 <td>
+                    <a click.delegate="showArticleDetails(article.id)" class="btn btn-default btn-sm" aria-label="Left Align">
+                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                    </a>
+                </td>
+                <td>
                     <a click.delegate="deleteArticle(article.id)" class="btn btn-default btn-sm" aria-label="Left Align">
                         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                     </a>
