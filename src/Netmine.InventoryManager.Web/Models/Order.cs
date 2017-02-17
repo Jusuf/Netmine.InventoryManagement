@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Netmine.InventoryManager.Web.Models.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace Netmine.InventoryManager.Web.Models
     public class Order : BaseModel
     {
         [Required]
-        public int Status { get; set; }
+        public OrderStatus Status { get; set; }
 
         public string Message { get; set; }
 

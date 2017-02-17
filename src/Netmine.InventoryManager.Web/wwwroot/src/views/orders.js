@@ -8,7 +8,7 @@ System.register(["aurelia-framework", "aurelia-fetch-client", 'aurelia-router'],
         return c > 3 && r && Object.defineProperty(target, key, r), r;
     };
     var aurelia_framework_1, aurelia_fetch_client_1, aurelia_router_1;
-    var Articles;
+    var Orders, OrderStatus;
     return {
         setters:[
             function (aurelia_framework_1_1) {
@@ -21,69 +21,31 @@ System.register(["aurelia-framework", "aurelia-fetch-client", 'aurelia-router'],
                 aurelia_router_1 = aurelia_router_1_1;
             }],
         execute: function() {
-            let Articles = class Articles {
+            let Orders = class Orders {
                 constructor(http, json, router) {
                     this.http = http;
                     this.router = router;
                 }
                 activate() {
-                    this.fetchAllArticles();
+                    this.fetchOrdersByStatus(OrderStatus.Active);
                 }
-                saveArticle() {
-                    let article = {
-                        Name: this.articleName,
-                        Number: this.articleNumber,
-                        Id: this.articleId
-                    };
-                    if (article.Id) {
-                        this.http.fetch("http://localhost:64889/api/warehouse/", {
-                            method: "put",
-                            body: aurelia_fetch_client_1.json(article)
-                        }).then(response => {
-                            this.fetchAllArticles();
-                            console.log("article edited: ", response);
-                            this.clearArticle();
-                        });
-                    }
-                    else {
-                        article.Id = "";
-                        this.http.fetch("http://localhost:64889/api/article/", {
-                            method: "post",
-                            body: aurelia_fetch_client_1.json(article)
-                        }).then(response => {
-                            this.fetchAllArticles();
-                            console.log("article added: ", response);
-                            this.clearArticle();
-                        });
-                    }
-                }
-                fetchAllArticles() {
-                    return this.http.fetch("http://localhost:64889/api/warehouse").
+                fetchOrdersByStatus(status) {
+                    status = 1;
+                    return this.http.fetch(`http://localhost:64889/api/order/${status}`).
                         then(response => response.json()).then(data => {
-                        this.articles = data;
+                        this.activeOrders = data;
                     });
                 }
-                deleteArticle(articleId) {
-                    this.http.fetch(`http://localhost:64889/api/article/${articleId}`, { method: "delete" }).then(() => { this.fetchAllArticles(); });
-                }
-                editArticle(article) {
-                    this.articleName = article.name;
-                    this.articleNumber = article.number;
-                    this.articleId = article.id;
-                }
-                clearArticle() {
-                    this.articleName = "";
-                    this.articleNumber = null;
-                    this.articleId = "";
-                }
-                showArticleDetails(articleId) {
-                    this.router.navigateToRoute("articleDetails", { id: articleId });
-                }
             };
-            Articles = __decorate([
+            Orders = __decorate([
                 aurelia_framework_1.inject(aurelia_fetch_client_1.HttpClient, aurelia_fetch_client_1.json, aurelia_router_1.Router)
-            ], Articles);
-            exports_1("Articles", Articles);
+            ], Orders);
+            exports_1("Orders", Orders);
+            (function (OrderStatus) {
+                OrderStatus[OrderStatus["New"] = 0] = "New";
+                OrderStatus[OrderStatus["Active"] = 1] = "Active";
+                OrderStatus[OrderStatus["Completed"] = 2] = "Completed";
+            })(OrderStatus || (OrderStatus = {}));
         }
     }
 });
