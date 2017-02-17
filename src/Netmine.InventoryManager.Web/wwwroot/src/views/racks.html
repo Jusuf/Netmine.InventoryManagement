@@ -1,0 +1,33 @@
+﻿<template>
+    <require from="../../src/components/date-format"></require>
+    <require from="../../src/components/date-picker"></require>
+    
+    <div class="panel panel-default">
+        <div class="panel-heading">Lagerplatser</div>
+        <table class="table">
+            <tr>
+                <th>Namn</th>
+            </tr>
+            <tr repeat.for="rack of racks" click.delegate="editArticle(article)">
+                <td>${rack.name}</td>
+                <td>
+                    <a click.delegate="showRackDetails(rack.id)" class="btn btn-default btn-sm" aria-label="Left Align">
+                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                    </a>
+                </td>
+                <td>
+                    <a click.delegate="deleteRack(rack.id)" class="btn btn-default btn-sm" aria-label="Left Align">
+                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                    </a>
+                </td>
+            </tr>
+        </table>
+        <hr />
+        <form>
+            <div class="form-group">
+                <input type="text" value.bind="rackName" class="form-control" placeholder="Ange lagerplatsnam">
+            </div>
+            <button click.delegate="saveRack()" class="btn btn-default">Spara lagerplats</button>
+        </form>
+    </div>
+</template>
