@@ -14,6 +14,7 @@ using Netmine.InventoryManager.Web.Models;
 using Netmine.InventoryManager.Web.Services;
 using Newtonsoft.Json.Serialization;
 using Netmine.InventoryManager.Web.Repository.EntityRepositories;
+using Netmine.InventoryManager.Web.Repository;
 
 namespace Netmine.InventoryManager.Web
 {
@@ -60,6 +61,7 @@ namespace Netmine.InventoryManager.Web
 
             ////Make Dependency Injection work
             services.AddTransient<IArticleRepository, ArticleRepository>();
+            services.AddTransient<IOrderRepository, OrderRepository>();
             services.AddTransient<IRackRepository, RackRepository>();
             services.AddMvc();
         }

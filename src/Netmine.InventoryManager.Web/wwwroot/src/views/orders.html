@@ -3,11 +3,31 @@
 
     <div class="panel panel-default col-sm-8">
         <div class="panel-heading">Ordrar</div>
-        <div class="col-sm-12" repeat.for="order of activeOrders">
+        <div class="col-sm-12" repeat.for="order of activeOrders" click.delegate="showDetails(order)">
             <div class="order-row">
                 <h3>${order.id}</h3>
                 <h4>${order.message}</h4>
                 <h4>${order.modifiedDate | dateFormat}</h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default col-sm-4">
+        <div class="panel-heading">Ingen order vald</div>
+        <div class="col-sm-12" repeat.for="order of activeOrders" click.delegate="showDetails(order)">
+            <div id="order-details">
+                <p>${order.modifiedDate | dateFormat}</p>
+                <p>${order.user}</p>
+                <p>${order.recipient}</p>
+                <p>${order.address}</p>
+                <p>${order.street}</p>
+                <p>${order.zipCode}</p>
+                <p>${order.city}</p>
+                <p>${order.message}</p>
+            </div>
+            <div id="completeOrder" class="btn btn-primary btn-lg" click.delegate="completeOrder(order)">
+                <i class="icon-save"></i>
+                Slutför order
             </div>
         </div>
     </div>
