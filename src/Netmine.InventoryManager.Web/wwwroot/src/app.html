@@ -50,12 +50,19 @@
             </div>
             <div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">Lager<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-inbox"></span></a></li>
+                    <!--<li class="active"><a href="#">Lager<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-inbox"></span></a></li>
                     <li class="dropdown">
                     <li><a href="#">Order<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-tasks"></span></a></li>
-                    </li>
                     <li><a href="#">Transaktioner<span style="font-size:16px;" class="pull-right hidden-xs showopacity icon-truck"></span></a></li>
-                    <li><a href="#">Inställningar<span style="font-size:16px;" class="pull-right hidden-xs showopacity icon-cogs"></span></a></li>
+                    <li><a href="#">Inställningar</a></li>-->
+
+                    <li repeat.for="row of router.navigation" class="${row.isActive ? 'active' : ''}">
+                        <a data-toggle="collapse" data-target="#bs-example-navbar-collapse-1.in" href.bind="row.href">
+                            ${row.title}
+                            <span style="font-size:16px;" class="pull-right hidden-xs showopacity ${row.menuIcon}"></span>
+                        </a>
+                    </li>
+
                 </ul>
             </div>
         </div>

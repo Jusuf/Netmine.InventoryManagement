@@ -1,0 +1,14 @@
+﻿<template>
+    <require from="../../src/components/date-format"></require>
+
+    <div class="panel panel-default col-sm-8">
+        <div class="panel-heading">Ordrar</div>
+        <div class="col-sm-12" repeat.for="order of activeOrders">
+            <div class="order-row">
+                <h3>${order.id}</h3>
+                <h4>${order.message}</h4>
+                <h4>${order.modifiedDate | dateFormat}</h4>
+            </div>
+        </div>
+    </div>
+</template>

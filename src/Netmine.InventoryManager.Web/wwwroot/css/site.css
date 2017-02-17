@@ -162,3 +162,9 @@ nav.sidebar, .main{
       border: 1px solid grey;
       margin-top: 10px;
   }
+
+.order-row{
+      height: 75px;
+      border: 1px solid grey;
+      margin-top: 10px;
+  }
