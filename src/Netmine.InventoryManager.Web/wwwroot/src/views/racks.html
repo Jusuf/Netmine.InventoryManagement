@@ -6,15 +6,10 @@
         <div class="panel-heading">Lagerplatser</div>
         <table class="table">
             <tr>
-                <th>Namn</th>
+                <th>Benämning</th>
             </tr>
-            <tr repeat.for="rack of racks" click.delegate="editArticle(article)">
+            <tr repeat.for="rack of racks" click.delegate="editRack(rack)">
                 <td>${rack.name}</td>
-                <td>
-                    <a click.delegate="showRackDetails(rack.id)" class="btn btn-default btn-sm" aria-label="Left Align">
-                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-                    </a>
-                </td>
                 <td>
                     <a click.delegate="deleteRack(rack.id)" class="btn btn-default btn-sm" aria-label="Left Align">
                         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
@@ -25,7 +20,7 @@
         <hr />
         <form>
             <div class="form-group">
-                <input type="text" value.bind="rackName" class="form-control" placeholder="Ange lagerplatsnam">
+                <input type="text" value.bind="rackName" class="form-control" placeholder="Ange lagerplatsnamn">
             </div>
             <button click.delegate="saveRack()" class="btn btn-default">Spara lagerplats</button>
         </form>

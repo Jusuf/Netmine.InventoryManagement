@@ -66,9 +66,13 @@ export class Articles {
             });
     }
 
-    deleteArticle(rackId) {
+    deleteRack(rackId) {
         this.http.fetch(`rack/${rackId}`,
-            { method: "delete" }).then(() => { this.fetchAllRacks(); });
+            { method: "delete" }).then(() => {
+                this.fetchAllRacks();
+                this.clearRack();
+            });
+
     }
 
     editRack(rack: IRack) {
@@ -79,10 +83,6 @@ export class Articles {
     clearRack() {
         this.rackName = "";
         this.rackId = "";
-    }
-
-    showRackDetails(rackId) {
-        this.router.navigateToRoute("rackDetails", { id: rackId });
     }
 
 }
