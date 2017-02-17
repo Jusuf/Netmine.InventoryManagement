@@ -67,8 +67,11 @@ System.register(["aurelia-framework", "aurelia-fetch-client", 'aurelia-router'],
                         this.racks = data;
                     });
                 }
-                deleteArticle(rackId) {
-                    this.http.fetch(`rack/${rackId}`, { method: "delete" }).then(() => { this.fetchAllRacks(); });
+                deleteRack(rackId) {
+                    this.http.fetch(`rack/${rackId}`, { method: "delete" }).then(() => {
+                        this.fetchAllRacks();
+                        this.clearRack();
+                    });
                 }
                 editRack(rack) {
                     this.rackName = rack.name;
@@ -77,9 +80,6 @@ System.register(["aurelia-framework", "aurelia-fetch-client", 'aurelia-router'],
                 clearRack() {
                     this.rackName = "";
                     this.rackId = "";
-                }
-                showRackDetails(rackId) {
-                    this.router.navigateToRoute("rackDetails", { id: rackId });
                 }
             };
             Articles = __decorate([
