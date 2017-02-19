@@ -35,51 +35,34 @@ System.register(["aurelia-framework", "aurelia-fetch-client", 'aurelia-router'],
                     this.fetchAllTransactions();
                 }
                 saveRack() {
-                    let rack = {
-                        Name: this.rackName,
-                        Id: this.rackId
+                    let transaction = {
+                        articleNumber: this.articleNumber,
+                        articleName: this.articleName,
+                        batchNumber: this.batchNumber,
+                        orderNumber: this.orderNumber,
+                        amount: this.amount
                     };
-                    if (rack.Id) {
-                        this.http.fetch("transaction/", {
-                            method: "put",
-                            body: aurelia_fetch_client_1.json(rack)
-                        }).then(response => {
-                            this.fetchAllTransactions();
-                            console.log("rack edited: ", response);
-                            this.clearTransaction();
-                        });
-                    }
-                    else {
-                        rack.Id = "";
-                        this.http.fetch("transaction/", {
-                            method: "post",
-                            body: aurelia_fetch_client_1.json(rack)
-                        }).then(response => {
-                            this.fetchAllTransactions();
-                            console.log("rack added: ", response);
-                            this.clearTransaction();
-                        });
-                    }
+                    this.http.fetch("transaction/", {
+                        method: "post",
+                        body: aurelia_fetch_client_1.json(transaction)
+                    }).then(response => {
+                        this.fetchAllTransactions();
+                        console.log("transaction added: ", response);
+                        this.clearTransaction();
+                    });
                 }
                 fetchAllTransactions() {
                     return this.http.fetch("transaction").
                         then(response => response.json()).then(data => {
-                        this.racks = data;
+                        this.transactions = data;
                     });
-                }
-                deleteRack(transactionId) {
-                    this.http.fetch(`transaction/${transactionId}`, { method: "delete" }).then(() => {
-                        this.fetchAllTransactions();
-                        this.clearTransaction();
-                    });
-                }
-                editTransaction(rack) {
-                    this.rackName = rack.name;
-                    this.rackId = rack.id;
                 }
                 clearTransaction() {
-                    this.rackName = "";
-                    this.rackId = "";
+                    this.transactionDate = null;
+                    this.articleName = "";
+                    this.articleNumber = "";
+                    this.batchNumber = "";
+                    this.amount = 0;
                 }
             };
             Transactions = __decorate([

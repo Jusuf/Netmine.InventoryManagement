@@ -31,7 +31,7 @@
 
                     <div class='form-group'>
                         <label>Datum</label>
-                        <input datepicker value.bind="transactionDate" class="form-control" placeholder="Välj datum...">
+                        <input datepicker value.bind="transactionDate | dateFormat" class="form-control" placeholder="Välj datum...">
                         <p class='help-block'>
                             <small class='text-muted'>Var god ange datum för inleveransen</small>
                         </p>
