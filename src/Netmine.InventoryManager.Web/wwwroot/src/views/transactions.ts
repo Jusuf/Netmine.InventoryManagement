@@ -8,12 +8,14 @@ export class Transactions {
     router: Router;
 
     transactions: Array<ITransaction>;
+    racks: Array<IRack>;
 
     transactionDate: Date;
     articleNumber: string;
     articleName: string;
     batchNumber: string;
     orderNumber: string;
+    rackId: string;
     amount: number;
 
     constructor(private http: HttpClient, json, router: Router) {
@@ -27,10 +29,11 @@ export class Transactions {
     }
 
     activate() {
+        this.fetchAllRacks()
         this.fetchAllTransactions();
     }
 
-    saveRack() {
+    saveTransaction() {
 
         let transaction = {
             articleNumber: this.articleNumber,
@@ -55,6 +58,13 @@ export class Transactions {
         return this.http.fetch("transaction").
             then(response => response.json()).then(data => {
                 this.transactions = data;
+            });
+    }
+
+    fetchAllRacks() {
+        return this.http.fetch("rack").
+            then(response => response.json()).then(data => {
+                this.racks = data;
             });
     }
 

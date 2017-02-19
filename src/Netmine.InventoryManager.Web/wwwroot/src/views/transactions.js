@@ -32,9 +32,10 @@ System.register(["aurelia-framework", "aurelia-fetch-client", 'aurelia-router'],
                     this.router = router;
                 }
                 activate() {
+                    this.fetchAllRacks();
                     this.fetchAllTransactions();
                 }
-                saveRack() {
+                saveTransaction() {
                     let transaction = {
                         articleNumber: this.articleNumber,
                         articleName: this.articleName,
@@ -55,6 +56,13 @@ System.register(["aurelia-framework", "aurelia-fetch-client", 'aurelia-router'],
                     return this.http.fetch("transaction").
                         then(response => response.json()).then(data => {
                         this.transactions = data;
+                    });
+                }
+                fetchAllRacks() {
+                    return this.http.fetch("rack").
+                        then(response => response.json()).then(data => {
+                        this.racks = data;
+                        debugger;
                     });
                 }
                 clearTransaction() {
