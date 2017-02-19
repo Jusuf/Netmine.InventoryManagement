@@ -11,6 +11,10 @@ namespace Netmine.InventoryManager.Web.ViewModels
     {
         public string Id { get; set; }
 
+        public string ArticleNumber { get; set; }
+
+        public string ArticleName { get; set; }
+
         public string BatchNumber { get; set; }
 
         public string OrderNumber { get; set; }
@@ -19,8 +23,6 @@ namespace Netmine.InventoryManager.Web.ViewModels
 
         public decimal Amount { get; set; }
 
-        public Rack Rack { get; set; }
-
-        public ApplicationUser CreatedBy { get; set; }
+        public string RackId { get; set; }
     }
 }

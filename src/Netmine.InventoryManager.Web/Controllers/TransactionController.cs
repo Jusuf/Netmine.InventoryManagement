@@ -9,17 +9,36 @@ using System.Globalization;
 using Netmine.InventoryManager.Web.Repository.EntityRepositories;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Netmine.InventoryManager.Web.ViewModels;
+using Netmine.InventoryManager.Web.Models.Enums;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
 
 namespace Netmine.InventoryManager.Web.Controllers
 {
     [Route("api/[controller]")]
     public class TransactionController : Controller
     {
+        private UserManager<ApplicationUser> UserManager;
+        private IHttpContextAccessor ContextAccessorr { get; set; }
+
         public ITransactionRepository TransactionRepository { get; set; }
 
-        public TransactionController([FromServices] ITransactionRepository transactionRepository)
+        public IArticleRepository ArticleRepository { get; set; }
+
+        public IRackRepository RackRepository { get; set; }
+
+        public TransactionController([FromServices]
+            UserManager<ApplicationUser> userManager,
+            IHttpContextAccessor contextAccessorr,
+            ITransactionRepository transactionRepository,
+            IArticleRepository articleRepository,
+            IRackRepository rackRepository)
         {
+            UserManager = userManager;
+            ContextAccessorr = contextAccessorr;
             TransactionRepository = transactionRepository;
+            ArticleRepository = articleRepository;
+            RackRepository = rackRepository;
         }
 
         [HttpGet]
@@ -36,16 +55,43 @@ namespace Netmine.InventoryManager.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] TransactionViewModel model)
+        public async Task<IActionResult> Post([FromBody] TransactionViewModel model)
         {
-            if (!ModelState.IsValid) return BadRequest();
+            if (!ModelState.IsValid) return  BadRequest();
+
+            Article article = this.ArticleRepository.Query().Where(a => a.Number == model.ArticleNumber).FirstOrDefault();
+            Rack rack = this.RackRepository.GetById(Guid.Parse(model.RackId));
+            var contextUser = ContextAccessorr.HttpContext.User;
+            var user = await UserManager.GetUserAsync(User);
 
             var createdDate = DateTime.Now;
 
+            if (article == null)
+            {
+                Article newArticle = new Article()
+                {
+                    ModifiedDate = createdDate,
+                    CreatedDate = createdDate,
+                    Name = model.ArticleName,
+                    Number = model.ArticleNumber,
+                    Unit = Units.Kilogram
+                };
+
+                ArticleRepository.Insert(newArticle);
+                ArticleRepository.Save();
+
+                article = ArticleRepository.Query().Where(a => a.Name == newArticle.Name && a.Number == newArticle.Number).FirstOrDefault();
+            }
+
+
+
             Transaction transaction = new Transaction()
             {
+                Article = article,
                 CreatedDate = createdDate,
-                ModifiedDate = createdDate
+                ModifiedDate = createdDate,
+                Rack = rack,
+                
             };
 
             try
@@ -54,7 +100,8 @@ namespace Netmine.InventoryManager.Web.Controllers
                 TransactionRepository.Save();
                 var url = Url.RouteUrl("", new { id = transaction.Id }, Request.Scheme,
                 Request.Host.ToUriComponent());
-                return Created(url, transaction);
+
+                return Created(url, transaction); 
 
             }
             catch

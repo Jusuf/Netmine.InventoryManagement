@@ -7,8 +7,9 @@ namespace Netmine.InventoryManager.Web.Models.Enums
 {
     public enum Units : int
     {
-        Pieces = 10,
+        Piece = 10,
         Meter = 20,
-        Liter = 30
+        Liter = 30,
+        Kilogram = 40
     }
 }
