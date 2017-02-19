@@ -1,6 +1,5 @@
 ﻿import $ from 'jquery';
 import jQuery from 'jquery';
-import 'fontawesome';
 
 export function configure(aurelia) {
 

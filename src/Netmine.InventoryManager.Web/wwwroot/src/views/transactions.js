@@ -62,7 +62,6 @@ System.register(["aurelia-framework", "aurelia-fetch-client", 'aurelia-router'],
                     return this.http.fetch("rack").
                         then(response => response.json()).then(data => {
                         this.racks = data;
-                        debugger;
                     });
                 }
                 clearTransaction() {
