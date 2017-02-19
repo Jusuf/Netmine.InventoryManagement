@@ -63,6 +63,8 @@ namespace Netmine.InventoryManager.Web
             services.AddTransient<IArticleRepository, ArticleRepository>();
             services.AddTransient<IOrderRepository, OrderRepository>();
             services.AddTransient<IRackRepository, RackRepository>();
+            services.AddTransient<ITransactionRepository, TransactionRepository>();
+
             services.AddMvc();
         }
 

@@ -1,4 +1,4 @@
-System.register([], function(exports_1, context_1) {
+System.register(['fontawesome'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     function configure(aurelia) {
@@ -7,7 +7,8 @@ System.register([], function(exports_1, context_1) {
     }
     exports_1("configure", configure);
     return {
-        setters:[],
+        setters:[
+            function (_1) {}],
         execute: function() {
         }
     }
