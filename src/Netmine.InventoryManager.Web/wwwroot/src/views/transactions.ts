@@ -36,11 +36,15 @@ export class Transactions {
     saveTransaction() {
 
         let transaction = {
+            id: "",
+            date: this.transactionDate,
             articleNumber: this.articleNumber,
             articleName: this.articleName,
             batchNumber: this.batchNumber,
             orderNumber: this.orderNumber,
-            amount: this.amount
+            rackId: this.rackId,
+            amount: this.amount,
+            transactionType: 30
         };
 
         this.http.fetch("transaction/", {
@@ -51,6 +55,8 @@ export class Transactions {
             this.fetchAllTransactions();
             console.log("transaction added: ", response);
             this.clearTransaction();
+            this.fetchAllRacks();
+
         });
     }
 
@@ -69,11 +75,13 @@ export class Transactions {
     }
 
     clearTransaction() {
-        this.transactionDate = null;
+        this.transactionDate = new Date();
         this.articleName = "";
         this.articleNumber = "";
         this.batchNumber = "";
+        this.orderNumber = "";
         this.amount = 0;
+        this.rackId = "";
     }
 
 }
@@ -84,7 +92,9 @@ export interface ITransaction {
     articleName: string;
     batchNumber: string;
     orderNumber: string;
+    transactionType: number;
     amount: number;
+    rackId: string;
 }
 
 export interface IRack {

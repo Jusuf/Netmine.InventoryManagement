@@ -14,6 +14,9 @@ namespace Netmine.InventoryManager.Web.Models
         public string OrderNumber { get; set; }
 
         [Required]
+        public DateTime Date { get; set; }
+
+        [Required]
         public TransactionTypes TransactionType { get; set; }
 
         [Required]

@@ -38,35 +38,35 @@
                     </div>
                     <div class='form-group'>
                         <label>Artikelnummer</label>
-                        <input class='typeahead form-control' id='artnr' placeholder='Artikelnummer' type='text'>
+                        <input value.bind="articleNumber" class='typeahead form-control' id='artnr' placeholder='Artikelnummer' type='text'>
                         <p class='help-block'>
                             <small class='text-muted'>Var god ange artikel nummer, mellanslag kommer automatiskt att tas bort</small>
                         </p>
                     </div>
                     <div class='form-group'>
                         <label>Ange benämning på artiklen</label>
-                        <input class='form-control' id='title' placeholder='Benämning' type='text'>
+                        <input value.bind="articleName" class='form-control' id='title' placeholder='Benämning' type='text'>
                         <p class='help-block'>
                             <small class='text-muted'>Var god ange benämning på artiklen</small>
                         </p>
                     </div>
                     <div class='form-group'>
                         <label>Batchnummer</label>
-                        <input class='form-control' id='batch' placeholder='Batchnummer' type='text'>
+                        <input value.bind="batchNumber" class='form-control' id='batch' placeholder='Batchnummer' type='text'>
                         <p class='help-block'>
                             <small class='text-muted'>Var god ange artikel batchnummer, mellanslag kommer automatiskt att tas bort</small>
                         </p>
                     </div>
                     <div class='form-group'>
                         <label>Ingående ordernummer</label>
-                        <input class='form-control' id='order_in' placeholder='Ingående ordernummer' type='text'>
+                        <input value.bind="orderNumber" class='form-control' id='order_in' placeholder='Ingående ordernummer' type='text'>
                         <p class='help-block'>
                             <small class='text-muted'>Var god ange ingående ordernummer</small>
                         </p>
                     </div>
                     <div class='form-group'>
                         <label>Antal kilo</label>
-                        <input class='form-control' id='amount' placeholder='Antal kilo' type='text'>
+                        <input value.bind="amount" class='form-control' id='amount' placeholder='Antal kilo' type='text'>
                         <p class='help-block'>
                             <small class='text-muted'>Var god ange antal kilo</small>
                         </p>
@@ -81,7 +81,7 @@
                                 ${rack.name}
                             </option>
                         </select>
-                      
+
                         <p class='help-block'>
                             <small class='text-muted'>Var god ange lagerplats</small>
                         </p>

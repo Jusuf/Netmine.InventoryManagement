@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Netmine.InventoryManager.Web.Models;
+using Netmine.InventoryManager.Web.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,13 +17,13 @@ namespace Netmine.InventoryManager.Web.Data
             AddArticles();
             AddAddresses();
             AddUsers();
+            AddRecipients();
+            AddUserRecipients();
             AddRacks();
             AddCargo();
             AddOrders();
             AddOrderRows();
-            AddRecipients();
             AddTransactions();
-            AddUserRecipients();
         }
 
         private static void AddArticles()
@@ -256,7 +257,9 @@ namespace Netmine.InventoryManager.Web.Data
                         CreatedBy = db.Users.OrderBy(r => random.Next()).First(),
                         OrderNumber = Guid.NewGuid().ToString(),
                         Rack = db.Racks.OrderBy(r => random.Next()).First(),
-                        TransactionType = Models.Enums.TransactionTypes.Sent
+                        TransactionType = Models.Enums.TransactionTypes.Sent,
+                        Date = DateTime.UtcNow.AddSeconds(random.Next(-1000000, 1000000))
+
                     };
 
                     db.Transactions.Add(item);

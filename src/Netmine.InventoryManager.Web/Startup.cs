@@ -61,8 +61,6 @@ namespace Netmine.InventoryManager.Web
             });
 
             ////Make Dependency Injection work
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
             services.AddTransient<IArticleRepository, ArticleRepository>();
             services.AddTransient<IRackRepository, RackRepository>();
             services.AddTransient<IOrderRepository, OrderRepository>();

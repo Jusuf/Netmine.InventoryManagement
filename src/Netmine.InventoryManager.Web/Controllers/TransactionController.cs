@@ -19,7 +19,6 @@ namespace Netmine.InventoryManager.Web.Controllers
     public class TransactionController : Controller
     {
         private UserManager<ApplicationUser> UserManager;
-        private IHttpContextAccessor ContextAccessorr { get; set; }
 
         public ITransactionRepository TransactionRepository { get; set; }
 
@@ -29,13 +28,11 @@ namespace Netmine.InventoryManager.Web.Controllers
 
         public TransactionController([FromServices]
             UserManager<ApplicationUser> userManager,
-            IHttpContextAccessor contextAccessorr,
             ITransactionRepository transactionRepository,
             IArticleRepository articleRepository,
             IRackRepository rackRepository)
         {
             UserManager = userManager;
-            ContextAccessorr = contextAccessorr;
             TransactionRepository = transactionRepository;
             ArticleRepository = articleRepository;
             RackRepository = rackRepository;
@@ -57,11 +54,10 @@ namespace Netmine.InventoryManager.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] TransactionViewModel model)
         {
-            if (!ModelState.IsValid) return  BadRequest();
+            if (!ModelState.IsValid) return BadRequest();
 
             Article article = this.ArticleRepository.Query().Where(a => a.Number == model.ArticleNumber).FirstOrDefault();
             Rack rack = this.RackRepository.GetById(Guid.Parse(model.RackId));
-            var contextUser = ContextAccessorr.HttpContext.User;
             var user = await UserManager.GetUserAsync(User);
 
             var createdDate = DateTime.Now;
@@ -83,15 +79,18 @@ namespace Netmine.InventoryManager.Web.Controllers
                 article = ArticleRepository.Query().Where(a => a.Name == newArticle.Name && a.Number == newArticle.Number).FirstOrDefault();
             }
 
-
-
             Transaction transaction = new Transaction()
             {
                 Article = article,
                 CreatedDate = createdDate,
                 ModifiedDate = createdDate,
                 Rack = rack,
-                
+                CreatedBy = user,
+                OrderNumber = model.OrderNumber,
+                BatchNumber = model.BatchNumber,
+                TransactionType = model.TransactionType,
+                Amount = model.Amount,
+                Date = model.Date
             };
 
             try
@@ -101,7 +100,7 @@ namespace Netmine.InventoryManager.Web.Controllers
                 var url = Url.RouteUrl("", new { id = transaction.Id }, Request.Scheme,
                 Request.Host.ToUriComponent());
 
-                return Created(url, transaction); 
+                return Created(url, transaction);
 
             }
             catch
