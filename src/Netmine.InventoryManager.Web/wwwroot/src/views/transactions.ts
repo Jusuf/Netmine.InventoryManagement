@@ -44,7 +44,7 @@ export class Transactions {
             orderNumber: this.orderNumber,
             rackId: this.rackId,
             amount: this.amount,
-
+            transactionType: 40
         };
 
         this.http.fetch("transaction/", {

@@ -45,6 +45,7 @@ System.register(["aurelia-framework", "aurelia-fetch-client", 'aurelia-router'],
                         orderNumber: this.orderNumber,
                         rackId: this.rackId,
                         amount: this.amount,
+                        transactionType: 40
                     };
                     this.http.fetch("transaction/", {
                         method: "post",

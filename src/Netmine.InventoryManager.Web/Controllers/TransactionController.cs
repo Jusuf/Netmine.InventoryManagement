@@ -58,7 +58,6 @@ namespace Netmine.InventoryManager.Web.Controllers
 
             Article article = this.ArticleRepository.Query().Where(a => a.Number == model.ArticleNumber).FirstOrDefault();
             Rack rack = this.RackRepository.GetById(Guid.Parse(model.RackId));
-            var contextUser = ContextAccessorr.HttpContext.User;
             var user = await UserManager.GetUserAsync(User);
 
             var createdDate = DateTime.Now;
@@ -91,7 +90,8 @@ namespace Netmine.InventoryManager.Web.Controllers
                 CreatedBy = user,
                 OrderNumber = model.OrderNumber,
                 TransactionType = model.TransactionType,
-                Amount = model.Amount
+                Amount = model.Amount,
+                Date = model.Date
             };
 
             try
