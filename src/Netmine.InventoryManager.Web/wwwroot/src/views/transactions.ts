@@ -44,7 +44,7 @@ export class Transactions {
             orderNumber: this.orderNumber,
             rackId: this.rackId,
             amount: this.amount,
-            transactionType: 40
+            transactionType: 30
         };
 
         this.http.fetch("transaction/", {
@@ -55,6 +55,8 @@ export class Transactions {
             this.fetchAllTransactions();
             console.log("transaction added: ", response);
             this.clearTransaction();
+            this.fetchAllRacks();
+
         });
     }
 
@@ -73,11 +75,13 @@ export class Transactions {
     }
 
     clearTransaction() {
-        this.transactionDate = null;
+        this.transactionDate = new Date();
         this.articleName = "";
         this.articleNumber = "";
         this.batchNumber = "";
+        this.orderNumber = "";
         this.amount = 0;
+        this.rackId = "";
     }
 
 }

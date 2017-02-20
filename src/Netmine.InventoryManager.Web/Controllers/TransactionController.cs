@@ -79,8 +79,6 @@ namespace Netmine.InventoryManager.Web.Controllers
                 article = ArticleRepository.Query().Where(a => a.Name == newArticle.Name && a.Number == newArticle.Number).FirstOrDefault();
             }
 
-
-
             Transaction transaction = new Transaction()
             {
                 Article = article,
@@ -89,6 +87,7 @@ namespace Netmine.InventoryManager.Web.Controllers
                 Rack = rack,
                 CreatedBy = user,
                 OrderNumber = model.OrderNumber,
+                BatchNumber = model.BatchNumber,
                 TransactionType = model.TransactionType,
                 Amount = model.Amount,
                 Date = model.Date

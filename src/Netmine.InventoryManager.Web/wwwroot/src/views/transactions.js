@@ -45,7 +45,7 @@ System.register(["aurelia-framework", "aurelia-fetch-client", 'aurelia-router'],
                         orderNumber: this.orderNumber,
                         rackId: this.rackId,
                         amount: this.amount,
-                        transactionType: 40
+                        transactionType: 30
                     };
                     this.http.fetch("transaction/", {
                         method: "post",
@@ -54,6 +54,7 @@ System.register(["aurelia-framework", "aurelia-fetch-client", 'aurelia-router'],
                         this.fetchAllTransactions();
                         console.log("transaction added: ", response);
                         this.clearTransaction();
+                        this.fetchAllRacks();
                     });
                 }
                 fetchAllTransactions() {
@@ -69,11 +70,13 @@ System.register(["aurelia-framework", "aurelia-fetch-client", 'aurelia-router'],
                     });
                 }
                 clearTransaction() {
-                    this.transactionDate = null;
+                    this.transactionDate = new Date();
                     this.articleName = "";
                     this.articleNumber = "";
                     this.batchNumber = "";
+                    this.orderNumber = "";
                     this.amount = 0;
+                    this.rackId = "";
                 }
             };
             Transactions = __decorate([
