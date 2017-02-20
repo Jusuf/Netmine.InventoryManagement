@@ -19,7 +19,6 @@ namespace Netmine.InventoryManager.Web.Controllers
     public class TransactionController : Controller
     {
         private UserManager<ApplicationUser> UserManager;
-        private IHttpContextAccessor ContextAccessorr { get; set; }
 
         public ITransactionRepository TransactionRepository { get; set; }
 
@@ -29,13 +28,11 @@ namespace Netmine.InventoryManager.Web.Controllers
 
         public TransactionController([FromServices]
             UserManager<ApplicationUser> userManager,
-            IHttpContextAccessor contextAccessorr,
             ITransactionRepository transactionRepository,
             IArticleRepository articleRepository,
             IRackRepository rackRepository)
         {
             UserManager = userManager;
-            ContextAccessorr = contextAccessorr;
             TransactionRepository = transactionRepository;
             ArticleRepository = articleRepository;
             RackRepository = rackRepository;
