@@ -16,11 +16,10 @@
         ${ user.role ? user.role.name : '' }
         <div class="panel-heading">${selectedOrder.id ? selectedOrder.id : 'Ingen order vald'}</div>
             <div id="order-details">
-                <p>Datum: ${selectedOrder.modifiedDate | dateFormat}</p>
-                <p>Användare: ${selectedOrder.user}</p>
-                <p>Mottagare: ${selectedOrder.recipient}</p>
-                <!--<p>Adress: ${selectedOrder.address}</p>-->
-                <p>Adress: ${selectedOrder.street}</p>
+                <p>Datum: ${selectedOrder.date | dateFormat}</p>
+                <p>Användare: ${selectedOrder.createdByUserName}</p>
+                <p>Mottagare: ${selectedOrder.recipientName}</p>
+                <p>Adress: ${selectedOrder.address}</p>
                 <p>Postnr: ${selectedOrder.zipCode}</p>
                 <p>Ort: ${selectedOrder.city}</p>
                 <p>Meddelande: ${selectedOrder.message}</p>
