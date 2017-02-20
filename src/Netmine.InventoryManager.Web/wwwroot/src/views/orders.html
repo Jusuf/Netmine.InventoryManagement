@@ -2,33 +2,32 @@
     <require from="../../src/components/date-format"></require>
 
     <div class="panel panel-default col-sm-8">
-        <div class="panel-heading">Ordrar</div>
-        <div class="col-sm-12" repeat.for="order of activeOrders" click.delegate="showDetails(order)">
+        <div class="panel-heading">Aktiva ordrar</div>
+        <div class="col-sm-12" repeat.for="order of activeOrders" click.delegate="showOrderDetails(order)">
             <div class="order-row">
                 <h3>${order.id}</h3>
                 <h4>${order.message}</h4>
-                <h4>${order.modifiedDate | dateFormat}</h4>
+                <h4 class="text-right">${order.modifiedDate | dateFormat}</h4>
             </div>
         </div>
     </div>
 
     <div class="panel panel-default col-sm-4">
-        <div class="panel-heading">Ingen order vald</div>
-        <div class="col-sm-12" repeat.for="order of activeOrders" click.delegate="showDetails(order)">
+        ${ user.role ? user.role.name : '' }
+        <div class="panel-heading">${selectedOrder.id ? selectedOrder.id : 'Ingen order vald'}</div>
             <div id="order-details">
-                <p>${order.modifiedDate | dateFormat}</p>
-                <p>${order.user}</p>
-                <p>${order.recipient}</p>
-                <p>${order.address}</p>
-                <p>${order.street}</p>
-                <p>${order.zipCode}</p>
-                <p>${order.city}</p>
-                <p>${order.message}</p>
+                <p>Datum: ${selectedOrder.modifiedDate | dateFormat}</p>
+                <p>Användare: ${selectedOrder.user}</p>
+                <p>Mottagare: ${selectedOrder.recipient}</p>
+                <!--<p>Adress: ${selectedOrder.address}</p>-->
+                <p>Adress: ${selectedOrder.street}</p>
+                <p>Postnr: ${selectedOrder.zipCode}</p>
+                <p>Ort: ${selectedOrder.city}</p>
+                <p>Meddelande: ${selectedOrder.message}</p>
             </div>
-            <div id="completeOrder" class="btn btn-primary btn-lg" click.delegate="completeOrder(order)">
+            <div class="btn btn-primary btn-lg" click.delegate="completeOrder(order)">
                 <i class="icon-save"></i>
                 Slutför order
             </div>
-        </div>
     </div>
 </template>

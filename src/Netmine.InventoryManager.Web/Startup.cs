@@ -98,8 +98,11 @@ namespace Netmine.InventoryManager.Web
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-
+            
             app.UseMvc();
+
+            // Add dummy data, only if tables are empty
+            app.SeedData();
         }
     }
 }

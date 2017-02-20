@@ -10,6 +10,7 @@ using Netmine.InventoryManager.Web.Repository.EntityRepositories;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Netmine.InventoryManager.Web.ViewModels;
 using Netmine.InventoryManager.Web.Models.Enums;
+using Microsoft.EntityFrameworkCore;
 
 namespace Netmine.InventoryManager.Web.Controllers
 {
@@ -52,5 +53,18 @@ namespace Netmine.InventoryManager.Web.Controllers
         {
             return OrderRepository.GetById(id);
         }
+
+        [HttpGet]
+        [Route("details/{id}", Name = "GetDetails")]
+        public dynamic Details(Guid id)
+        {
+            var order = OrderRepository.Query()
+                .Include("Recipient")
+                .Where(x => x.Id == id);
+
+            return order;
+        }
+
+        //GetOrderLines(Order order)...
     }
 }
