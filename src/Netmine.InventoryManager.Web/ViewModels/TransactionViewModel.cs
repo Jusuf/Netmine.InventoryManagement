@@ -24,5 +24,7 @@ namespace Netmine.InventoryManager.Web.ViewModels
         public decimal Amount { get; set; }
 
         public string RackId { get; set; }
+
+        public DateTime Date { get; set; }
     }
 }

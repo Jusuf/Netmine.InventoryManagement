@@ -36,11 +36,15 @@ export class Transactions {
     saveTransaction() {
 
         let transaction = {
+            id: "",
+            date: this.transactionDate,
             articleNumber: this.articleNumber,
             articleName: this.articleName,
             batchNumber: this.batchNumber,
             orderNumber: this.orderNumber,
-            amount: this.amount
+            rackId: this.rackId,
+            amount: this.amount,
+
         };
 
         this.http.fetch("transaction/", {
@@ -84,7 +88,9 @@ export interface ITransaction {
     articleName: string;
     batchNumber: string;
     orderNumber: string;
+    transactionType: number;
     amount: number;
+    rackId: string;
 }
 
 export interface IRack {

@@ -57,7 +57,7 @@ namespace Netmine.InventoryManager.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] TransactionViewModel model)
         {
-            if (!ModelState.IsValid) return  BadRequest();
+            if (!ModelState.IsValid) return BadRequest();
 
             Article article = this.ArticleRepository.Query().Where(a => a.Number == model.ArticleNumber).FirstOrDefault();
             Rack rack = this.RackRepository.GetById(Guid.Parse(model.RackId));
@@ -91,7 +91,10 @@ namespace Netmine.InventoryManager.Web.Controllers
                 CreatedDate = createdDate,
                 ModifiedDate = createdDate,
                 Rack = rack,
-                
+                CreatedBy = user,
+                OrderNumber = model.OrderNumber,
+                TransactionType = model.TransactionType,
+                Amount = model.Amount
             };
 
             try
@@ -101,7 +104,7 @@ namespace Netmine.InventoryManager.Web.Controllers
                 var url = Url.RouteUrl("", new { id = transaction.Id }, Request.Scheme,
                 Request.Host.ToUriComponent());
 
-                return Created(url, transaction); 
+                return Created(url, transaction);
 
             }
             catch

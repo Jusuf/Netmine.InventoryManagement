@@ -8,9 +8,10 @@ using Netmine.InventoryManager.Web.Data;
 namespace Netmine.InventoryManager.Web.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170220121757_AddedDatePropertyToTransaction")]
+    partial class AddedDatePropertyToTransaction
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")
