@@ -24,16 +24,27 @@ System.register(["aurelia-framework", "aurelia-fetch-client", 'aurelia-router'],
             let Orders = class Orders {
                 constructor(http, json, router) {
                     this.http = http;
+                    http.configure(config => {
+                        config
+                            .useStandardConfiguration()
+                            .withBaseUrl('api/');
+                    });
                     this.router = router;
                 }
                 activate() {
                     this.fetchOrdersByStatus(OrderStatus.Active);
                 }
                 fetchOrdersByStatus(status) {
-                    status = 1;
-                    return this.http.fetch(`http://localhost:64889/api/order/${status}`).
+                    return this.http.fetch(`order/${status}`).
                         then(response => response.json()).then(data => {
                         this.activeOrders = data;
+                    });
+                }
+                showOrderDetails(order) {
+                    let id = order.id;
+                    return this.http.fetch(`order/details/${id}`).
+                        then(response => response.json()).then(data => {
+                        this.selectedOrder = data;
                     });
                 }
             };
