@@ -1,0 +1,95 @@
+﻿<template>
+    <require from="../../src/components/date-format"></require>
+    <require from="../../src/components/date-picker"></require>
+
+    <div class="container">
+        <div class="jumbotron">
+            <h3 class='pull-left'>
+                <i class='fa fa-truck'></i>
+                <span>Transaktioner</span>
+            </h3>
+            <div class='pull-right'>
+
+                <i class='fa fa-bar-chart'></i>
+                <i class='fa fa-angle-right'></i>
+                <p>Transaktioner</p>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">Inleverans</div>
+            <div class="panel-body">
+                <div class='col-sm-4'>
+                    <div>
+                        <i class='fa fa-ambulance contrast'></i>
+                        Inleverans
+                    </div>
+                    <small class='text-muted'>Använd formuläret till höger för att rapportera inleverans. Om artikelnummer ej finns sedan innan kommer en ny artikel skapas automatiskt.</small>
+                </div>
+
+                <div class='col-sm-8'>
+
+                    <div class='form-group'>
+                        <label>Datum</label>
+                        <input datepicker value.bind="transactionDate | dateFormat" class="form-control" placeholder="Välj datum...">
+                        <p class='help-block'>
+                            <small class='text-muted'>Var god ange datum för inleveransen</small>
+                        </p>
+                    </div>
+                    <div class='form-group'>
+                        <label>Artikelnummer</label>
+                        <input class='typeahead form-control' id='artnr' placeholder='Artikelnummer' type='text'>
+                        <p class='help-block'>
+                            <small class='text-muted'>Var god ange artikel nummer, mellanslag kommer automatiskt att tas bort</small>
+                        </p>
+                    </div>
+                    <div class='form-group'>
+                        <label>Ange benämning på artiklen</label>
+                        <input class='form-control' id='title' placeholder='Benämning' type='text'>
+                        <p class='help-block'>
+                            <small class='text-muted'>Var god ange benämning på artiklen</small>
+                        </p>
+                    </div>
+                    <div class='form-group'>
+                        <label>Batchnummer</label>
+                        <input class='form-control' id='batch' placeholder='Batchnummer' type='text'>
+                        <p class='help-block'>
+                            <small class='text-muted'>Var god ange artikel batchnummer, mellanslag kommer automatiskt att tas bort</small>
+                        </p>
+                    </div>
+                    <div class='form-group'>
+                        <label>Ingående ordernummer</label>
+                        <input class='form-control' id='order_in' placeholder='Ingående ordernummer' type='text'>
+                        <p class='help-block'>
+                            <small class='text-muted'>Var god ange ingående ordernummer</small>
+                        </p>
+                    </div>
+                    <div class='form-group'>
+                        <label>Antal kilo</label>
+                        <input class='form-control' id='amount' placeholder='Antal kilo' type='text'>
+                        <p class='help-block'>
+                            <small class='text-muted'>Var god ange antal kilo</small>
+                        </p>
+                    </div>
+                    <div class='form-group'>
+                        <label>Lagerplats</label>
+
+                        <select class="form-control" value.bind="rackId">
+                            <option value="">Välj lagerplats</option>
+                            <option value="${rack.id}"
+                                    repeat.for="rack of racks">
+                                ${rack.name}
+                            </option>
+                        </select>
+                      
+                        <p class='help-block'>
+                            <small class='text-muted'>Var god ange lagerplats</small>
+                        </p>
+                    </div>
+
+                    <button click.delegate="saveTransaction()" class="btn btn-success">Spara</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

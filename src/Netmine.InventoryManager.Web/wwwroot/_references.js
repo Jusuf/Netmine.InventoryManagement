@@ -13,6 +13,6 @@
 /// <reference path="src/views/articles.js" />
 /// <reference path="src/views/orders.js" />
 /// <reference path="src/views/racks.js" />
-/// <reference path="src/views/orders.js" />
 /// <reference path="src/views/todos.js" />
+/// <reference path="src/views/transactions.js" />
 /// <reference path="src/views/warehouse.js" />

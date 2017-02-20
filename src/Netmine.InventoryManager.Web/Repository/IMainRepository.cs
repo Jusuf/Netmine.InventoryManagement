@@ -23,8 +23,6 @@ namespace Netmine.InventoryManager.Web.Repository
 
         IEnumerable<TEntity> Search(Expression<Func<TEntity, bool>> predicate);
 
-        //IQueryable<TEntity> Query();
-
         void Save();
         
     }

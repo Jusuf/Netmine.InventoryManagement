@@ -13,6 +13,7 @@ System.config({
     "aurelia-framework": "npm:aurelia-framework@1.0.8",
     "aurelia-pal-browser": "npm:aurelia-pal-browser@1.1.0",
     "bootstrap": "github:twbs/bootstrap@3.3.7",
+    "fontawesome": "npm:fontawesome@4.7.0",
     "jquery": "npm:jquery@3.1.1",
     "jquery-ui": "npm:jquery-ui@1.12.1",
     "moment": "npm:moment@2.17.1",
@@ -253,7 +254,7 @@ System.config({
       "create-hash": "npm:create-hash@1.1.2",
       "create-hmac": "npm:create-hmac@1.1.4",
       "crypto": "github:jspm/nodelibs-crypto@0.1.0",
-      "elliptic": "npm:elliptic@6.3.2",
+      "elliptic": "npm:elliptic@6.3.3",
       "inherits": "npm:inherits@2.0.1",
       "parse-asn1": "npm:parse-asn1@5.0.0",
       "stream": "github:jspm/nodelibs-stream@0.1.0"
@@ -286,7 +287,7 @@ System.config({
       "bn.js": "npm:bn.js@4.11.6",
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "crypto": "github:jspm/nodelibs-crypto@0.1.0",
-      "elliptic": "npm:elliptic@6.3.2"
+      "elliptic": "npm:elliptic@6.3.3"
     },
     "npm:create-hash@1.1.2": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
@@ -329,9 +330,9 @@ System.config({
       "randombytes": "npm:randombytes@2.0.3",
       "systemjs-json": "github:systemjs/plugin-json@0.1.2"
     },
-    "npm:elliptic@6.3.2": {
+    "npm:elliptic@6.3.3": {
       "bn.js": "npm:bn.js@4.11.6",
-      "brorand": "npm:brorand@1.0.6",
+      "brorand": "npm:brorand@1.0.7",
       "hash.js": "npm:hash.js@1.0.3",
       "inherits": "npm:inherits@2.0.1",
       "systemjs-json": "github:systemjs/plugin-json@0.1.2"
@@ -340,6 +341,11 @@ System.config({
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "create-hash": "npm:create-hash@1.1.2",
       "crypto": "github:jspm/nodelibs-crypto@0.1.0"
+    },
+    "npm:fontawesome@4.7.0": {
+      "fs": "github:jspm/nodelibs-fs@0.1.2",
+      "http": "github:jspm/nodelibs-http@1.7.1",
+      "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:hash.js@1.0.3": {
       "inherits": "npm:inherits@2.0.1"
@@ -360,7 +366,7 @@ System.config({
     },
     "npm:miller-rabin@4.0.0": {
       "bn.js": "npm:bn.js@4.11.6",
-      "brorand": "npm:brorand@1.0.6"
+      "brorand": "npm:brorand@1.0.7"
     },
     "npm:os-browserify@0.1.2": {
       "os": "github:jspm/nodelibs-os@0.1.0"
