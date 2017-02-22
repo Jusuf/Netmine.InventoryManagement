@@ -45,17 +45,19 @@ System.register(["aurelia-framework", "aurelia-fetch-client", 'aurelia-router'],
                         orderNumber: this.orderNumber,
                         rackId: this.rackId,
                         amount: this.amount,
-                        transactionType: 30
+                        transactionType: 30,
+                        article: this.selectedArticle
                     };
-                    this.http.fetch("transaction/", {
-                        method: "post",
-                        body: aurelia_fetch_client_1.json(transaction)
-                    }).then(response => {
-                        this.fetchAllTransactions();
-                        console.log("transaction added: ", response);
-                        this.clearTransaction();
-                        this.fetchAllRacks();
-                    });
+                    debugger;
+                    //this.http.fetch("transaction/", {
+                    //    method: "post",
+                    //    body: json(transaction)
+                    //}).then(response => {
+                    //    this.fetchAllTransactions();
+                    //    console.log("transaction added: ", response);
+                    //    this.clearTransaction();
+                    //    this.fetchAllRacks();
+                    //});
                 }
                 fetchAllTransactions() {
                     return this.http.fetch("transaction").
@@ -77,6 +79,14 @@ System.register(["aurelia-framework", "aurelia-fetch-client", 'aurelia-router'],
                     this.orderNumber = "";
                     this.amount = 0;
                     this.rackId = "";
+                }
+                searchArticleByNumber() {
+                    debugger;
+                    this.articleNumber = $("#artnr").val();
+                    return this.http.fetch(`article/searchByNumber?number=${this.articleNumber}`, { method: "get" })
+                        .then(response => response.json()).then(data => {
+                        this.articles = data;
+                    });
                 }
             };
             Transactions = __decorate([

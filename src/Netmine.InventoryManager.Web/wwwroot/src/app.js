@@ -29,6 +29,7 @@ System.register(["aurelia-framework", "aurelia-router"], function(exports_1, con
                         { route: ["", "warehouse"], name: "warehouse", moduleId: "./views/warehouse", nav: true, title: "Lager", menuIcon: "glyphicon glyphicon-inbox" },
                         { route: "orders", name: "orders", moduleId: "./views/orders", nav: true, title: "Ordrar" },
                         { route: "transactions", name: "transactions", moduleId: "./views/transactions", nav: true, title: "Transaktioner", menuIcon: "glyphicon glyphicon-truck" },
+                        { route: "articles", name: "articles", moduleId: "./views/articles", nav: true, title: "Artiklar", menuIcon: "glyphicon glyphicon-truck" },
                         //child nav, settings
                         { route: "users", name: "users", moduleId: "./views/users", nav: true, title: "Användare", menuIcon: "glyphicon glyphicon-user" },
                         { route: "racks", name: "racks", moduleId: "./views/racks", nav: true, title: "Lagerplatser", menuIcon: "glyphicon glyphicon-cog" },

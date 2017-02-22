@@ -9,6 +9,8 @@ export class Transactions {
 
     transactions: Array<ITransaction>;
     racks: Array<IRack>;
+    articles: Array<IArticle>;
+    selectedArticle: Object;
 
     transactionDate: Date;
     articleNumber: string;
@@ -44,20 +46,23 @@ export class Transactions {
             orderNumber: this.orderNumber,
             rackId: this.rackId,
             amount: this.amount,
-            transactionType: 30
+            transactionType: 30,
+            article: this.selectedArticle
         };
 
-        this.http.fetch("transaction/", {
-            method: "post",
-            body: json(transaction)
 
-        }).then(response => {
-            this.fetchAllTransactions();
-            console.log("transaction added: ", response);
-            this.clearTransaction();
-            this.fetchAllRacks();
+        debugger;
+        //this.http.fetch("transaction/", {
+        //    method: "post",
+        //    body: json(transaction)
 
-        });
+        //}).then(response => {
+        //    this.fetchAllTransactions();
+        //    console.log("transaction added: ", response);
+        //    this.clearTransaction();
+        //    this.fetchAllRacks();
+
+        //});
     }
 
     fetchAllTransactions() {
@@ -84,6 +89,18 @@ export class Transactions {
         this.rackId = "";
     }
 
+    searchArticleByNumber() {
+        debugger;
+
+        this.articleNumber = $("#artnr").val();
+
+        return this.http.fetch(`article/searchByNumber?number=${this.articleNumber}`,
+            { method: "get" })
+            .then(response => response.json()).then(data => {
+                this.articles = data;
+            });
+    }
+
 }
 
 export interface ITransaction {
@@ -99,6 +116,12 @@ export interface ITransaction {
 
 export interface IRack {
     id: string;
+    name: string;
+}
+
+export interface IArticle {
+    id: string;
+    number: string;
     name: string;
 }
 

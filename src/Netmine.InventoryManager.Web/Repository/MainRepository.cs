@@ -22,15 +22,15 @@ namespace Netmine.InventoryManager.Web.Repository
 
         public IQueryable<TEntity> Query()
         {
-            return this.context
+            return context
                 .Set<TEntity>()
-                .Where(e => e.IsDeleted == false);
+                .Where(e => e.IsDeleted == false).ToList().AsQueryable();
         }
 
         public IQueryable<TEntity> QueryIncludeDeleted()
         {
             return this.context
-                .Set<TEntity>();
+                .Set<TEntity>().ToList().AsQueryable();
         }
 
         public IQueryable<TEntity> GetAll()

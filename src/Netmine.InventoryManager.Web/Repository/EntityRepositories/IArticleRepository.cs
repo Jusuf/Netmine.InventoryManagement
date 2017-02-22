@@ -7,5 +7,7 @@ namespace Netmine.InventoryManager.Web.Repository.EntityRepositories
     public interface IArticleRepository : IMainRepository<Article, Guid>
     {
         IEnumerable<Article> FindByName(string name);
+
+        IEnumerable<Article> FindByNumber(string number);
     }
 }
