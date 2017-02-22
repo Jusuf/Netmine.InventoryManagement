@@ -16,5 +16,13 @@ namespace Netmine.InventoryManager.Web.Models
 
         [Required]
         public Address Address { get; set; }
+
+        public string FullName
+        {
+            get
+            {
+                return FirstName + " " + LastName;
+            }
+        }
     }
 }

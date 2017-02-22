@@ -34,7 +34,7 @@ export class Orders {
         let id = order.id;
         return this.http.fetch(`order/details/${id}`).
             then(response => response.json()).then(data => {
-                this.selectedOrder = data;
+                this.selectedOrder = data.value;
             });
     }
 }
@@ -49,12 +49,17 @@ export interface IOrder {
 
 export interface IOrderDetails {
     id: string;
-    userName: string;
+    date: Date;
+    createdByUserName: string;
     recipientName: string;
-    street: string;
+    address: string;
+    zipCode: number;
     city: string;
-    zipCode: string;
     message: string;
+}
+
+export interface IOrderRow {
+    
 }
 
 enum OrderStatus {

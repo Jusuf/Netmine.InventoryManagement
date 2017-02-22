@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Netmine.InventoryManager.Web.ViewModels;
 using Netmine.InventoryManager.Web.Models.Enums;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
 
 namespace Netmine.InventoryManager.Web.Controllers
 {
@@ -19,9 +21,19 @@ namespace Netmine.InventoryManager.Web.Controllers
     {
         public IOrderRepository OrderRepository { get; set; }
 
-        public OrderController([FromServices] IOrderRepository orderRepository)
+        public IOrderRowRepository OrderRowRepository { get; set; }
+
+        private UserManager<ApplicationUser> UserManager;
+
+        public OrderController([FromServices]
+            IOrderRepository orderRepository,
+            IOrderRowRepository orderRowRepository,
+            UserManager<ApplicationUser> userManager, 
+            IHttpContextAccessor contextAccessor)
         {
+            UserManager = userManager;
             OrderRepository = orderRepository;
+            OrderRowRepository = orderRowRepository;
         }
 
         [HttpGet]
@@ -56,15 +68,42 @@ namespace Netmine.InventoryManager.Web.Controllers
 
         [HttpGet]
         [Route("details/{id}", Name = "GetDetails")]
-        public dynamic Details(Guid id)
+        public async Task<dynamic> Details(Guid id)
         {
-            var order = OrderRepository.Query()
-                .Include("Recipient")
-                .Where(x => x.Id == id);
+            try
+            {
+                var user = await UserManager.GetUserAsync(User);
 
-            return order;
+                var order = OrderRepository.Query()
+                    .Include("CreatedBy")
+                    .Include("Recipient")
+                    .Include("Recipient.Address")
+                    .Where(x => x.Id == id).FirstOrDefault();
+
+                //var orderRows = OrderRowRepository.Query().Where(x => x.Order.Id == id).ToList();
+                //get all orderrows from transations with this order id
+                //var transactions..=
+
+                var viewModel = new OrderDetailsViewModel
+                {
+                    Id = order.Id,
+                    Date = order.CreatedDate,
+                    CreatedByUserName = order.CreatedBy.FullName,
+                    RecipientName = order.Recipient.FullName,
+                    Address = order.Recipient.Address.Street,
+                    ZipCode = order.Recipient.Address.ZipCode,
+                    City = order.Recipient.Address.City,
+                    Message = order.Message,
+                    OrderRows = orderRows
+                };
+
+                return Ok(viewModel);
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
-
-        //GetOrderLines(Order order)...
+        
     }
 }

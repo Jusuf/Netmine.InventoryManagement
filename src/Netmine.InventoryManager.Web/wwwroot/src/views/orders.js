@@ -44,7 +44,7 @@ System.register(["aurelia-framework", "aurelia-fetch-client", 'aurelia-router'],
                     let id = order.id;
                     return this.http.fetch(`order/details/${id}`).
                         then(response => response.json()).then(data => {
-                        this.selectedOrder = data;
+                        this.selectedOrder = data.value;
                     });
                 }
             };

@@ -44,7 +44,7 @@ namespace Netmine.InventoryManager.Web.Data
                         CreatedDate = DateTime.UtcNow.AddSeconds(random.Next(-1000000, 1000000)),
                         IsDeleted = false,
                         ModifiedDate = DateTime.UtcNow.AddSeconds(random.Next(-1000000, 1000000)),
-                        Unit = Units.Piece
+                        Unit = Models.Enums.Units.Piece
                     };
 
                     db.Articles.Add(article);
