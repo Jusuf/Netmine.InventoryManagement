@@ -13,9 +13,16 @@ namespace Netmine.InventoryManager.Web.Repository.EntityRepositories
 
         public IEnumerable<Article> FindByName(string name)
         {
-            return GetAll()
+            return Query()
                 .Where(x => x.Name.ToLowerInvariant()
                 .Contains(name.ToLowerInvariant()));
+        }
+
+        public IEnumerable<Article> FindByNumber(string number)
+        {
+            return Query()
+                 .Where(x => x.Number.ToLowerInvariant()
+                 .Contains(number.ToLowerInvariant()));
         }
     }
 }

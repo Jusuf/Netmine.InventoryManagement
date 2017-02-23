@@ -38,10 +38,21 @@
                     </div>
                     <div class='form-group'>
                         <label>Artikelnummer</label>
-                        <input value.bind="articleNumber" class='typeahead form-control' id='artnr' placeholder='Artikelnummer' type='text'>
+                        <input list="articles" keyup.delegate="searchArticleByNumber()" class='typeahead form-control' id='artnr' placeholder='Artikelnummer' type='text'>
+                        <datalist id="articles">
+                            <option repeat.for="art of articles" object.bind="art">${art.number} - ${art.name}</option>
+                        </datalist>
                         <p class='help-block'>
                             <small class='text-muted'>Var god ange artikel nummer, mellanslag kommer automatiskt att tas bort</small>
                         </p>
+
+                        <!--<form role="form">
+                            <select value.bind="selectedArticle">
+                                <option repeat.for="option of articles" model.bind="option">${option.name}</option>
+                            </select>
+                        </form>-->
+
+
                     </div>
                     <div class='form-group'>
                         <label>Ange benämning på artiklen</label>

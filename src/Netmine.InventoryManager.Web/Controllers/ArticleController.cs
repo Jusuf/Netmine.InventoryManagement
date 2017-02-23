@@ -35,6 +35,20 @@ namespace Netmine.InventoryManager.Web.Controllers
             return ArticleRepository.GetById(id);
         }
 
+        [HttpGet]
+        [Route("[action]")]
+        public IEnumerable<Article> SearchByNumber(string number)
+        {
+            if (!String.IsNullOrEmpty(number))
+            {
+                return ArticleRepository.FindByNumber(number).Take(10).ToList();
+            }
+            else
+            {
+                return ArticleRepository.Query().Take(10).ToList();
+            }
+        }
+
         [HttpPost]
         public IActionResult Post([FromBody] ArticleViewModel model)
         {

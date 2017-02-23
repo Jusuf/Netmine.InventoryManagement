@@ -55,14 +55,15 @@ namespace Netmine.InventoryManager.Web.Controllers
         public async Task<IActionResult> Post([FromBody] TransactionViewModel model)
         {
             if (!ModelState.IsValid) return BadRequest();
-
-            Article article = this.ArticleRepository.Query().Where(a => a.Number == model.ArticleNumber).FirstOrDefault();
-            Rack rack = this.RackRepository.GetById(Guid.Parse(model.RackId));
-            var user = await UserManager.GetUserAsync(User);
-
             var createdDate = DateTime.Now;
 
-            if (article == null)
+            Article article = new Article();
+
+            if (model.Article != null)
+            {
+                article = this.ArticleRepository.GetById(Guid.Parse(model.Article.Id));
+            }
+            else
             {
                 Article newArticle = new Article()
                 {
@@ -76,8 +77,11 @@ namespace Netmine.InventoryManager.Web.Controllers
                 ArticleRepository.Insert(newArticle);
                 ArticleRepository.Save();
 
-                article = ArticleRepository.Query().Where(a => a.Name == newArticle.Name && a.Number == newArticle.Number).FirstOrDefault();
+                article = ArticleRepository.GetById(newArticle.Id);
             }
+
+            Rack rack = this.RackRepository.GetById(Guid.Parse(model.RackId));
+            var user = await UserManager.GetUserAsync(User);
 
             Transaction transaction = new Transaction()
             {

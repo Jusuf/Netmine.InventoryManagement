@@ -26,5 +26,7 @@ namespace Netmine.InventoryManager.Web.ViewModels
         public string RackId { get; set; }
 
         public DateTime Date { get; set; }
+
+        public ArticleViewModel Article { get; set; }
     }
 }
