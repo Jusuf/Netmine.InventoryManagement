@@ -20,26 +20,32 @@ namespace Netmine.InventoryManager.Web.Controllers
     public class OrderController : Controller
     {
         public IOrderRepository OrderRepository { get; set; }
-
         public IOrderRowRepository OrderRowRepository { get; set; }
+        public ICargoRepository CargoRepository { get; set; }
+
+        private IEnumerable<CargoViewModel> Cargo { get; set; }
+
+        private IEnumerable<OrderRowViewModel> OrderRows { get; set; }
 
         private UserManager<ApplicationUser> UserManager;
 
         public OrderController([FromServices]
             IOrderRepository orderRepository,
             IOrderRowRepository orderRowRepository,
-            UserManager<ApplicationUser> userManager, 
+            ICargoRepository cargoRepository,
+            UserManager<ApplicationUser> userManager,
             IHttpContextAccessor contextAccessor)
         {
             UserManager = userManager;
             OrderRepository = orderRepository;
             OrderRowRepository = orderRowRepository;
+            CargoRepository = cargoRepository;
         }
 
         [HttpGet]
         public IEnumerable<Order> Get()
         {
-            return OrderRepository.Query().ToList();
+            return OrderRepository.GetAll();
         }
 
         [HttpGet("{status:int}")]
@@ -67,24 +73,38 @@ namespace Netmine.InventoryManager.Web.Controllers
         }
 
         [HttpGet]
+        [Route("rows/{id}", Name = "GetOrderRows")]
+        public IEnumerable<OrderRow> Rows(Guid id)
+        {
+            return OrderRowRepository.Query()
+                .Where(x => x.Order.Id == id).ToList();
+        }
+
+        [HttpGet]
         [Route("details/{id}", Name = "GetDetails")]
-        public async Task<dynamic> Details(Guid id)
+        public dynamic Details(Guid id)
         {
             try
             {
-                var user = await UserManager.GetUserAsync(User);
-
                 var order = OrderRepository.Query()
                     .Include("CreatedBy")
                     .Include("Recipient")
                     .Include("Recipient.Address")
                     .Where(x => x.Id == id).FirstOrDefault();
 
-                //var orderRows = OrderRowRepository.Query().Where(x => x.Order.Id == id).ToList();
-                //get all orderrows from transations with this order id
-                //var transactions..=
+                var orderRows = OrderRowRepository.Query()
+                    .Include("Article")
+                    .Where(x => x.Order.Id == id)
+                    .ToList();
 
-                var viewModel = new OrderDetailsViewModel
+                OrderRows = getOrderRowsViewModels(orderRows, id);
+
+                foreach (var row in orderRows)
+                {
+                    Cargo = getCargoViewModels(row.Article);
+                }
+
+                var orderDetails = new OrderDetailsViewModel
                 {
                     Id = order.Id,
                     Date = order.CreatedDate,
@@ -94,16 +114,51 @@ namespace Netmine.InventoryManager.Web.Controllers
                     ZipCode = order.Recipient.Address.ZipCode,
                     City = order.Recipient.Address.City,
                     Message = order.Message,
-                    OrderRows = orderRows
+                    OrderRows = OrderRows,
+                    Cargo = Cargo
                 };
 
-                return Ok(viewModel);
+                return Ok(orderDetails);
             }
             catch
             {
                 return BadRequest();
             }
         }
-        
+
+        private IEnumerable<OrderRowViewModel> getOrderRowsViewModels(List<OrderRow> orderRows, Guid id)
+        {
+            foreach (var row in orderRows)
+            {
+                Cargo = getCargoViewModels(row.Article);
+
+                yield return (new OrderRowViewModel
+                {
+                    Id = row.Id,
+                    Amount = row.Amount,
+                    ArticleName = row.Article.Name
+                });
+            }
+        }
+
+        private IEnumerable<CargoViewModel> getCargoViewModels(Article article)
+        {
+            var cargo = CargoRepository.Query()
+                .Include("Rack")
+                .Where(x => x.Article == article)
+                .ToList();
+
+            foreach(var item in cargo)
+            {
+                yield return (new CargoViewModel
+                {
+                    Id = item.Id,
+                    Amount = item.Amount,
+                    BatchNumber = item.BatchNumber,
+                    BlockedAmount = item.BlockedAmount,
+                    RackName = item.Rack.Name
+                });
+            }
+        }
     }
 }

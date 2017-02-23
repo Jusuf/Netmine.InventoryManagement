@@ -15,18 +15,42 @@
     <div class="panel panel-default col-sm-4">
         ${ user.role ? user.role.name : '' }
         <div class="panel-heading">${selectedOrder.id ? selectedOrder.id : 'Ingen order vald'}</div>
-            <div id="order-details">
-                <p>Datum: ${selectedOrder.date | dateFormat}</p>
-                <p>Användare: ${selectedOrder.createdByUserName}</p>
-                <p>Mottagare: ${selectedOrder.recipientName}</p>
-                <p>Adress: ${selectedOrder.address}</p>
-                <p>Postnr: ${selectedOrder.zipCode}</p>
-                <p>Ort: ${selectedOrder.city}</p>
-                <p>Meddelande: ${selectedOrder.message}</p>
+        <div id="order-details">
+            <p>Datum: ${selectedOrder.date | dateFormat}</p>
+            <p>Användare: ${selectedOrder.createdByUserName}</p>
+            <p>Mottagare: ${selectedOrder.recipientName}</p>
+            <p>Adress: ${selectedOrder.address}</p>
+            <p>Postnr: ${selectedOrder.zipCode}</p>
+            <p>Ort: ${selectedOrder.city}</p>
+            <p>Meddelande: ${selectedOrder.message}</p>
+            <i style="cursor: pointer;" title="Ta bort" class='glyphicon glyphicon-trash'></i>
+        </div>
+
+        <div class="panel-heading" repeat.for="orderRow of selectedOrder.orderRows">
+            <div id="order-row">
+                Artikel:${orderRow.articleName}
+                Antal: ${orderRow.amount}
             </div>
-            <div class="btn btn-primary btn-lg" click.delegate="completeOrder(order)">
-                <i class="icon-save"></i>
-                Slutför order
-            </div>
+
+            <table repeat.for="cargoItem of selectedOrder.cargo">
+                <tr>
+                    <th>Lagerplats</th>
+                    <th>Batchnr</th>
+                    <th>Antal kilo</th>
+                    <th>Plocka</th>
+                </tr>
+                <tr>
+                    <td>${cargoItem.rackName}</td>
+                    <td>${cargoItem.batchNumber}</td>
+                    <td>${cargoItem.amount}</td>
+                    <td><input type="text" placeholder="antal"</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="btn btn-primary btn-lg" click.delegate="completeOrder(order)">
+            <i class="icon-save"></i>
+            Slutför order
+        </div>
     </div>
 </template>

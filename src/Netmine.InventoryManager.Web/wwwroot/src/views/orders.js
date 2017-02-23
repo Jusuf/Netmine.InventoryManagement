@@ -42,10 +42,12 @@ System.register(["aurelia-framework", "aurelia-fetch-client", 'aurelia-router'],
                 }
                 showOrderDetails(order) {
                     let id = order.id;
-                    return this.http.fetch(`order/details/${id}`).
-                        then(response => response.json()).then(data => {
-                        this.selectedOrder = data.value;
-                    });
+                    return Promise.all([
+                        this.http.fetch(`order/details/${id}`)
+                            .then(response => response.json()).then(data => {
+                            this.selectedOrder = data.value;
+                        }),
+                    ]);
                 }
             };
             Orders = __decorate([

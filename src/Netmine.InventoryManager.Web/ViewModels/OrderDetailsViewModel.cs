@@ -32,6 +32,8 @@ namespace Netmine.InventoryManager.Web.ViewModels
         [Display(Name = "Meddelande")]
         public string Message { get; set; }
 
-        public List<OrderRow> OrderRows { get; set; }
+        public IEnumerable<OrderRowViewModel> OrderRows { get; set; }
+
+        public IEnumerable<CargoViewModel> Cargo { get; set; }
     }
 }
