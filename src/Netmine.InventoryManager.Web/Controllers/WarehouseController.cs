@@ -76,7 +76,7 @@ namespace Netmine.InventoryManager.Web.Controllers
                 Article article = ArticleRepository.GetById(articleId);
                 article.IsDeleted = true;
                 ArticleRepository.Save();
-                return new StatusCodeResult(200);
+                return Ok();
             }
             catch (Exception)
             {

@@ -124,7 +124,7 @@ namespace Netmine.InventoryManager.Web.Controllers
                 Transaction transaction = TransactionRepository.GetById(transactionId);
                 transaction.IsDeleted = true;
                 TransactionRepository.Save();
-                return new StatusCodeResult(200);
+                return Ok();
             }
             catch (Exception)
             {

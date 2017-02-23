@@ -75,7 +75,7 @@ namespace Netmine.InventoryManager.Web.Controllers
                 Rack rack = RackRepository.GetById(rackId);
                 rack.IsDeleted = true;
                 RackRepository.Save();
-                return new StatusCodeResult(200);
+                return Ok();
             }
             catch (Exception)
             {
