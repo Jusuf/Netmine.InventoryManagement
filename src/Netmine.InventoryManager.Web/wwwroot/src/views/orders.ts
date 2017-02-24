@@ -6,8 +6,8 @@ import {Router} from 'aurelia-router';
 export class Orders {
 
     router: Router;
-    activeOrders: Array<IOrder>;
     selectedOrder: IOrderDetails;
+    activeOrders: Array<IOrder>;
 
     constructor(private http: HttpClient, json, router: Router) {
         http.configure(config => {
@@ -22,7 +22,7 @@ export class Orders {
     activate() {
         this.fetchOrdersByStatus(OrderStatus.Active);
     }
-    
+
     fetchOrdersByStatus(status) {
         return this.http.fetch(`order/${status}`).
             then(response => response.json()).then(data => {
@@ -32,10 +32,13 @@ export class Orders {
 
     showOrderDetails(order) {
         let id = order.id;
-        return this.http.fetch(`order/details/${id}`).
-            then(response => response.json()).then(data => {
-                this.selectedOrder = data.value;
-            });
+
+        return Promise.all([
+            this.http.fetch(`order/details/${id}`)
+                .then(response => response.json()).then(data => {
+                    this.selectedOrder = data.value;
+                }),
+        ]);
     }
 }
 
@@ -56,10 +59,22 @@ export interface IOrderDetails {
     zipCode: number;
     city: string;
     message: string;
+    orderRows: Array<IOrderRow>;
+    cargo: Array<ICargo>;
 }
 
 export interface IOrderRow {
-    
+    id: string;
+    articleName: string;
+    amount: number;
+}
+
+export interface ICargo {
+    id: string;
+    amount: number;
+    batchNumber: string;
+    blockedAmount: number;
+    rackName: string;
 }
 
 enum OrderStatus {
