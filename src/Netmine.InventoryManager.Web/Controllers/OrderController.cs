@@ -94,7 +94,7 @@ namespace Netmine.InventoryManager.Web.Controllers
                     ZipCode = order.Recipient.Address.ZipCode,
                     City = order.Recipient.Address.City,
                     Message = order.Message,
-                    OrderRows = orderRows
+                 
                 };
 
                 return Ok(viewModel);

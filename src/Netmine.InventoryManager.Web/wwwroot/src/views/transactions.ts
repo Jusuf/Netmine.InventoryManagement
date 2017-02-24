@@ -1,16 +1,23 @@
 ﻿import {inject} from "aurelia-framework";
 import {HttpClient, json} from "aurelia-fetch-client";
 import {Router} from 'aurelia-router';
+import moment from "moment";
 
 @inject(HttpClient, json, Router)
+
 export class Transactions {
 
+    self: this;
     router: Router;
 
     transactions: Array<ITransaction>;
     racks: Array<IRack>;
     articles: Array<IArticle>;
-    selectedArticle: Object;
+    selectedArticleId: string;
+
+
+    statesSelect: string;
+    stateSelected: string;
 
     transactionDate: Date;
     articleNumber: string;
@@ -26,16 +33,18 @@ export class Transactions {
                 .useStandardConfiguration()
                 .withBaseUrl('api/');
         });
-
         this.router = router;
     }
 
     activate() {
         this.fetchAllRacks()
         this.fetchAllTransactions();
+        this.fetchAllArticles();
     }
 
     saveTransaction() {
+
+        this.selectedArticleId = $("#artnr").attr("articleId");
 
         let transaction = {
             id: "",
@@ -47,22 +56,20 @@ export class Transactions {
             rackId: this.rackId,
             amount: this.amount,
             transactionType: 30,
-            article: this.selectedArticle
+            articleId: this.selectedArticleId
         };
-
-
         debugger;
-        //this.http.fetch("transaction/", {
-        //    method: "post",
-        //    body: json(transaction)
+        this.http.fetch("transaction/", {
+            method: "post",
+            body: json(transaction)
 
-        //}).then(response => {
-        //    this.fetchAllTransactions();
-        //    console.log("transaction added: ", response);
-        //    this.clearTransaction();
-        //    this.fetchAllRacks();
+        }).then(response => {
+            this.fetchAllTransactions();
+            console.log("transaction added: ", response);
+            this.clearTransaction();
+            this.fetchAllRacks();
 
-        //});
+        });
     }
 
     fetchAllTransactions() {
@@ -80,7 +87,7 @@ export class Transactions {
     }
 
     clearTransaction() {
-        this.transactionDate = new Date();
+        this.transactionDate = new Date(Date.now());
         this.articleName = "";
         this.articleNumber = "";
         this.batchNumber = "";
@@ -89,14 +96,61 @@ export class Transactions {
         this.rackId = "";
     }
 
-    searchArticleByNumber() {
-        debugger;
+    attached() {
 
-        this.articleNumber = $("#artnr").val();
+        this.transactionDate = new Date(Date.now());
 
-        return this.http.fetch(`article/searchByNumber?number=${this.articleNumber}`,
-            { method: "get" })
-            .then(response => response.json()).then(data => {
+        $("#artnr").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "api/article/searchByNumber?number=" + request.term,
+                    dataType: "json",
+                    data: {
+                        q: request.term
+                    },
+                    success: function (data) {
+                        response(
+                            $.map(data, function (item) {
+                                return {
+                                    label: item.number + " " + item.name,
+                                    number: item.number,
+                                    name: item.name,
+                                    id: item.id
+                                };
+                            }));
+                    }
+                });
+
+            },
+            minLength: 3,
+            select: function (event, ui) {
+                event.preventDefault();
+                console.log(ui.item ?
+                    "Selected: " + ui.item.label :
+                    "Nothing selected, input was " + this.value);
+                $("#artnr").val(ui.item.number);
+                $("#artnr").attr("articleId", ui.item.id);
+                $("#artname").val(ui.item.name);
+
+            },
+            search: function (event, ui) {
+                $("#artnr").removeAttr("articleId");
+                $("#artname").val("");
+            },
+            open: function () {
+                $(this).removeClass("ui-corner-all").addClass("ui-corner-top");
+            },
+            close: function () {
+                $(this).removeClass("ui-corner-top").addClass("ui-corner-all");
+            }
+
+        }
+        )
+    }
+
+    fetchAllArticles() {
+        return this.http.fetch("article").
+            then(response => response.json()).then(data => {
                 this.articles = data;
             });
     }
@@ -111,6 +165,7 @@ export interface ITransaction {
     orderNumber: string;
     transactionType: number;
     amount: number;
+    articleId: string;
     rackId: string;
 }
 

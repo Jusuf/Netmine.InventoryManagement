@@ -27,6 +27,6 @@ namespace Netmine.InventoryManager.Web.ViewModels
 
         public DateTime Date { get; set; }
 
-        public ArticleViewModel Article { get; set; }
+        public string ArticleId { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 ﻿<template>
     <require from="../../src/components/date-format"></require>
     <require from="../../src/components/date-picker"></require>
-
+  
     <div class="container">
         <div class="jumbotron">
             <h3 class='pull-left'>
@@ -36,27 +36,18 @@
                             <small class='text-muted'>Var god ange datum för inleveransen</small>
                         </p>
                     </div>
-                    <div class='form-group'>
+                    <div class='form-group' >
                         <label>Artikelnummer</label>
-                        <input list="articles" keyup.delegate="searchArticleByNumber()" class='typeahead form-control' id='artnr' placeholder='Artikelnummer' type='text'>
-                        <datalist id="articles">
-                            <option repeat.for="art of articles" object.bind="art">${art.number} - ${art.name}</option>
-                        </datalist>
+                        <input id="artnr" value.bind="articleNumber" class='typeahead form-control' placeholder='Artikelnummer' type='text'>
+                      
                         <p class='help-block'>
                             <small class='text-muted'>Var god ange artikel nummer, mellanslag kommer automatiskt att tas bort</small>
                         </p>
 
-                        <!--<form role="form">
-                            <select value.bind="selectedArticle">
-                                <option repeat.for="option of articles" model.bind="option">${option.name}</option>
-                            </select>
-                        </form>-->
-
-
                     </div>
                     <div class='form-group'>
                         <label>Ange benämning på artiklen</label>
-                        <input value.bind="articleName" class='form-control' id='title' placeholder='Benämning' type='text'>
+                        <input value.bind="articleName" class='form-control' id='artname' placeholder='Benämning' type='text'>
                         <p class='help-block'>
                             <small class='text-muted'>Var god ange benämning på artiklen</small>
                         </p>

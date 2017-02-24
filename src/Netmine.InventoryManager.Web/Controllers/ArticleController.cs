@@ -39,7 +39,7 @@ namespace Netmine.InventoryManager.Web.Controllers
         [Route("[action]")]
         public IEnumerable<Article> SearchByNumber(string number)
         {
-            if (!String.IsNullOrEmpty(number))
+         if (!String.IsNullOrEmpty(number))
             {
                 return ArticleRepository.FindByNumber(number).Take(10).ToList();
             }

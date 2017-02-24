@@ -34,8 +34,10 @@ System.register(["aurelia-framework", "aurelia-fetch-client", 'aurelia-router'],
                 activate() {
                     this.fetchAllRacks();
                     this.fetchAllTransactions();
+                    this.fetchAllArticles();
                 }
                 saveTransaction() {
+                    this.selectedArticleId = $("#artnr").attr("articleId");
                     let transaction = {
                         id: "",
                         date: this.transactionDate,
@@ -46,18 +48,18 @@ System.register(["aurelia-framework", "aurelia-fetch-client", 'aurelia-router'],
                         rackId: this.rackId,
                         amount: this.amount,
                         transactionType: 30,
-                        article: this.selectedArticle
+                        articleId: this.selectedArticleId
                     };
                     debugger;
-                    //this.http.fetch("transaction/", {
-                    //    method: "post",
-                    //    body: json(transaction)
-                    //}).then(response => {
-                    //    this.fetchAllTransactions();
-                    //    console.log("transaction added: ", response);
-                    //    this.clearTransaction();
-                    //    this.fetchAllRacks();
-                    //});
+                    this.http.fetch("transaction/", {
+                        method: "post",
+                        body: aurelia_fetch_client_1.json(transaction)
+                    }).then(response => {
+                        this.fetchAllTransactions();
+                        console.log("transaction added: ", response);
+                        this.clearTransaction();
+                        this.fetchAllRacks();
+                    });
                 }
                 fetchAllTransactions() {
                     return this.http.fetch("transaction").
@@ -72,7 +74,7 @@ System.register(["aurelia-framework", "aurelia-fetch-client", 'aurelia-router'],
                     });
                 }
                 clearTransaction() {
-                    this.transactionDate = new Date();
+                    this.transactionDate = new Date(Date.now());
                     this.articleName = "";
                     this.articleNumber = "";
                     this.batchNumber = "";
@@ -80,11 +82,53 @@ System.register(["aurelia-framework", "aurelia-fetch-client", 'aurelia-router'],
                     this.amount = 0;
                     this.rackId = "";
                 }
-                searchArticleByNumber() {
-                    debugger;
-                    this.articleNumber = $("#artnr").val();
-                    return this.http.fetch(`article/searchByNumber?number=${this.articleNumber}`, { method: "get" })
-                        .then(response => response.json()).then(data => {
+                attached() {
+                    this.transactionDate = new Date(Date.now());
+                    $("#artnr").autocomplete({
+                        source: function (request, response) {
+                            $.ajax({
+                                url: "api/article/searchByNumber?number=" + request.term,
+                                dataType: "json",
+                                data: {
+                                    q: request.term
+                                },
+                                success: function (data) {
+                                    response($.map(data, function (item) {
+                                        return {
+                                            label: item.number + " " + item.name,
+                                            number: item.number,
+                                            name: item.name,
+                                            id: item.id
+                                        };
+                                    }));
+                                }
+                            });
+                        },
+                        minLength: 3,
+                        select: function (event, ui) {
+                            event.preventDefault();
+                            console.log(ui.item ?
+                                "Selected: " + ui.item.label :
+                                "Nothing selected, input was " + this.value);
+                            $("#artnr").val(ui.item.number);
+                            $("#artnr").attr("articleId", ui.item.id);
+                            $("#artname").val(ui.item.name);
+                        },
+                        search: function (event, ui) {
+                            $("#artnr").removeAttr("articleId");
+                            $("#artname").val("");
+                        },
+                        open: function () {
+                            $(this).removeClass("ui-corner-all").addClass("ui-corner-top");
+                        },
+                        close: function () {
+                            $(this).removeClass("ui-corner-top").addClass("ui-corner-all");
+                        }
+                    });
+                }
+                fetchAllArticles() {
+                    return this.http.fetch("article").
+                        then(response => response.json()).then(data => {
                         this.articles = data;
                     });
                 }

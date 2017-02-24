@@ -59,9 +59,9 @@ namespace Netmine.InventoryManager.Web.Controllers
 
             Article article = new Article();
 
-            if (model.Article != null)
+            if (!String.IsNullOrEmpty(model.ArticleId))
             {
-                article = this.ArticleRepository.GetById(Guid.Parse(model.Article.Id));
+                article = this.ArticleRepository.GetById(Guid.Parse(model.ArticleId));
             }
             else
             {
