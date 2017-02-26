@@ -26,13 +26,13 @@ System.register(["aurelia-framework", "aurelia-router"], function(exports_1, con
                     config.title = "AureliaTSapp";
                     config.map([
                         //navigation
-                        { route: ["", "warehouse"], name: "warehouse", moduleId: "./views/warehouse", nav: true, title: "Lager", menuIcon: "glyphicon glyphicon-inbox" },
-                        { route: "orders", name: "orders", moduleId: "./views/orders", nav: true, title: "Ordrar" },
-                        { route: "transactions", name: "transactions", moduleId: "./views/transactions", nav: true, title: "Transaktioner", menuIcon: "glyphicon glyphicon-truck" },
-                        { route: "articles", name: "articles", moduleId: "./views/articles", nav: true, title: "Artiklar", menuIcon: "glyphicon glyphicon-truck" },
+                        { route: ["", "warehouse"], name: "warehouse", moduleId: "./views/warehouse", nav: true, title: "Lager", settings: { icon: "inbox" } },
+                        { route: "orders", name: "orders", moduleId: "./views/orders", nav: true, title: "Ordrar", settings: { icon: "list-alt" } },
+                        { route: "transactions", name: "transactions", moduleId: "./views/transactions", nav: true, title: "Transaktioner", settings: { icon: "truck" } },
+                        { route: "articles", name: "articles", moduleId: "./views/articles", nav: true, title: "Artiklar", settings: { icon: "tags" } },
                         //child nav, settings
-                        { route: "users", name: "users", moduleId: "./views/users", nav: true, title: "Användare", menuIcon: "glyphicon glyphicon-user" },
-                        { route: "racks", name: "racks", moduleId: "./views/racks", nav: true, title: "Lagerplatser", menuIcon: "glyphicon glyphicon-cog" },
+                        { route: "users", name: "users", moduleId: "./views/users", nav: true, title: "Användare", settings: { icon: "user" } },
+                        { route: "racks", name: "racks", moduleId: "./views/racks", nav: true, title: "Lagerplatser", settings: { icon: "reorder" } },
                         //inventeringslista? länk till xls
                         //not on navigation
                         { route: "articleDetails/:id", name: "articleDetails", moduleId: "./views/articleDetails", title: "Article details" },

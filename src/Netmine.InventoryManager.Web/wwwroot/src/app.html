@@ -60,7 +60,7 @@
                     <li repeat.for="row of router.navigation" class="${row.isActive ? 'active' : ''}">
                         <a data-toggle="collapse" data-target="#bs-example-navbar-collapse-1.in" href.bind="row.href">
                             ${row.title}
-                            <span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-inbox"></span>
+                            <i if.bind="row.settings.icon" class="pull-right fa fa-${row.settings.icon}"></i>
                         </a>
                     </li>
 
