@@ -8,6 +8,7 @@
       "baseURL": "wwwroot"
     },
     "dependencies": {
+      "aurelia-binding": "npm:aurelia-binding@^1.2.0",
       "aurelia-bootstrapper": "npm:aurelia-bootstrapper@^2.0.1",
       "aurelia-fetch-client": "npm:aurelia-fetch-client@^1.1.0",
       "aurelia-framework": "npm:aurelia-framework@^1.0.8",
