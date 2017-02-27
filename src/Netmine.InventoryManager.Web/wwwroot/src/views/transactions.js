@@ -1,4 +1,4 @@
-System.register(["aurelia-framework", "aurelia-fetch-client", 'aurelia-router'], function(exports_1, context_1) {
+System.register(["aurelia-framework", "aurelia-fetch-client", 'aurelia-router', '../../src/components/date-format'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -7,7 +7,7 @@ System.register(["aurelia-framework", "aurelia-fetch-client", 'aurelia-router'],
         else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
         return c > 3 && r && Object.defineProperty(target, key, r), r;
     };
-    var aurelia_framework_1, aurelia_fetch_client_1, aurelia_router_1;
+    var aurelia_framework_1, aurelia_fetch_client_1, aurelia_router_1, date_format_1;
     var Transactions;
     return {
         setters:[
@@ -19,10 +19,13 @@ System.register(["aurelia-framework", "aurelia-fetch-client", 'aurelia-router'],
             },
             function (aurelia_router_1_1) {
                 aurelia_router_1 = aurelia_router_1_1;
+            },
+            function (date_format_1_1) {
+                date_format_1 = date_format_1_1;
             }],
         execute: function() {
             let Transactions = class Transactions {
-                constructor(http, json, router) {
+                constructor(http, json, router, dateFormat) {
                     this.http = http;
                     http.configure(config => {
                         config
@@ -30,6 +33,7 @@ System.register(["aurelia-framework", "aurelia-fetch-client", 'aurelia-router'],
                             .withBaseUrl('api/');
                     });
                     this.router = router;
+                    this.dateformat = dateFormat;
                 }
                 activate() {
                     this.fetchAllRacks();
@@ -50,7 +54,6 @@ System.register(["aurelia-framework", "aurelia-fetch-client", 'aurelia-router'],
                         transactionType: 30,
                         articleId: this.selectedArticleId
                     };
-                    debugger;
                     this.http.fetch("transaction/", {
                         method: "post",
                         body: aurelia_fetch_client_1.json(transaction)
@@ -74,7 +77,7 @@ System.register(["aurelia-framework", "aurelia-fetch-client", 'aurelia-router'],
                     });
                 }
                 clearTransaction() {
-                    this.transactionDate = new Date(Date.now());
+                    this.transactionDate = this.dateformat.getDate();
                     this.articleName = "";
                     this.articleNumber = "";
                     this.batchNumber = "";
@@ -83,7 +86,7 @@ System.register(["aurelia-framework", "aurelia-fetch-client", 'aurelia-router'],
                     this.rackId = "";
                 }
                 attached() {
-                    this.transactionDate = new Date(Date.now());
+                    this.transactionDate = this.dateformat.getDate();
                     $("#artnr").autocomplete({
                         source: function (request, response) {
                             $.ajax({
@@ -134,7 +137,7 @@ System.register(["aurelia-framework", "aurelia-fetch-client", 'aurelia-router'],
                 }
             };
             Transactions = __decorate([
-                aurelia_framework_1.inject(aurelia_fetch_client_1.HttpClient, aurelia_fetch_client_1.json, aurelia_router_1.Router)
+                aurelia_framework_1.inject(aurelia_fetch_client_1.HttpClient, aurelia_fetch_client_1.json, aurelia_router_1.Router, date_format_1.DateFormatValueConverter)
             ], Transactions);
             exports_1("Transactions", Transactions);
         }

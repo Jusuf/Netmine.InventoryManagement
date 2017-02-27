@@ -1,12 +1,13 @@
 ﻿import {inject} from "aurelia-framework";
 import {HttpClient, json} from "aurelia-fetch-client";
 import {Router} from 'aurelia-router';
-import moment from "moment";
+import {DateFormatValueConverter} from '../../src/components/date-format';
 
-@inject(HttpClient, json, Router)
+@inject(HttpClient, json, Router, DateFormatValueConverter)
 
 export class Transactions {
 
+    dateformat: DateFormatValueConverter;
     self: this;
     router: Router;
 
@@ -20,6 +21,7 @@ export class Transactions {
     stateSelected: string;
 
     transactionDate: Date;
+
     articleNumber: string;
     articleName: string;
     batchNumber: string;
@@ -27,13 +29,14 @@ export class Transactions {
     rackId: string;
     amount: number;
 
-    constructor(private http: HttpClient, json, router: Router) {
+    constructor(private http: HttpClient, json, router: Router, dateFormat: DateFormatValueConverter) {
         http.configure(config => {
             config
                 .useStandardConfiguration()
                 .withBaseUrl('api/');
         });
         this.router = router;
+        this.dateformat = dateFormat;
     }
 
     activate() {
@@ -58,7 +61,7 @@ export class Transactions {
             transactionType: 30,
             articleId: this.selectedArticleId
         };
-        debugger;
+
         this.http.fetch("transaction/", {
             method: "post",
             body: json(transaction)
@@ -87,7 +90,7 @@ export class Transactions {
     }
 
     clearTransaction() {
-        this.transactionDate = new Date(Date.now());
+        this.transactionDate = this.dateformat.getDate();
         this.articleName = "";
         this.articleNumber = "";
         this.batchNumber = "";
@@ -98,8 +101,7 @@ export class Transactions {
 
     attached() {
 
-        this.transactionDate = new Date(Date.now());
-
+        this.transactionDate = this.dateformat.getDate();
         $("#artnr").autocomplete({
             source: function (request, response) {
                 $.ajax({
