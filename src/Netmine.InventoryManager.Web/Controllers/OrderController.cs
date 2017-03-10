@@ -84,17 +84,17 @@ namespace Netmine.InventoryManager.Web.Controllers
 
             try
             {
-                //include verkar inte funka
+
                 var order = OrderRepository.Query()
+                    .Where(x => x.Id == id)
                     .Include(x => x.CreatedBy)
                     .Include(x => x.Recipient)
                         .ThenInclude(x => x.Address)
-                    .Where(x => x.Id == id)
                     .FirstOrDefault();
 
                 var orderRows = OrderRowRepository.Query()
+                     .Where(x => x.Order.Id == id)
                     .Include(x => x.Article)
-                    .Where(x => x.Order.Id == id)
                     .ToList();
 
 

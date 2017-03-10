@@ -24,13 +24,13 @@ namespace Netmine.InventoryManager.Web.Repository
         {
             return context
                 .Set<TEntity>()
-                .Where(e => e.IsDeleted == false).ToList().AsQueryable();
+                .Where(e => e.IsDeleted == false).AsQueryable();
         }
 
         public IQueryable<TEntity> QueryIncludeDeleted()
         {
             return this.context
-                .Set<TEntity>().ToList().AsQueryable();
+                .Set<TEntity>().AsQueryable();
         }
 
         public IQueryable<TEntity> GetAll()
