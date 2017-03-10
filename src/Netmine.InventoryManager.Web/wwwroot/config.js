@@ -14,6 +14,7 @@ System.config({
     "aurelia-framework": "npm:aurelia-framework@1.0.8",
     "aurelia-pal-browser": "npm:aurelia-pal-browser@1.1.0",
     "bootstrap": "github:twbs/bootstrap@3.3.7",
+    "datatables": "npm:datatables@1.10.13",
     "fontawesome": "npm:fontawesome@4.7.0",
     "jquery": "npm:jquery@3.1.1",
     "jquery-ui": "npm:jquery-ui@1.12.1",
@@ -317,6 +318,10 @@ System.config({
       "pbkdf2": "npm:pbkdf2@3.0.9",
       "public-encrypt": "npm:public-encrypt@4.0.0",
       "randombytes": "npm:randombytes@2.0.3"
+    },
+    "npm:datatables@1.10.13": {
+      "css": "github:systemjs/plugin-css@0.1.33",
+      "jquery": "npm:jquery@3.1.1"
     },
     "npm:des.js@1.0.0": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",

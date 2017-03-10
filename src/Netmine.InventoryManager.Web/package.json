@@ -1,8 +1,7 @@
 {
-  "dependencies": {
-    "jquery": "^3.1.1",
-    "jquery-ui": "^1.12.1"
-  },
+  "name": "blabla",
+  "version": "1.0.0",
+  "private": true,
   "jspm": {
     "directories": {
       "baseURL": "wwwroot"
@@ -14,6 +13,7 @@
       "aurelia-framework": "npm:aurelia-framework@^1.0.8",
       "aurelia-pal-browser": "npm:aurelia-pal-browser@^1.1.0",
       "bootstrap": "github:twbs/bootstrap@^3.3.7",
+      "datatables": "npm:datatables@^1.10.13",
       "fontawesome": "npm:fontawesome@^4.7.0",
       "jquery": "npm:jquery@^3.1.1",
       "jquery-ui": "npm:jquery-ui@^1.12.1",
