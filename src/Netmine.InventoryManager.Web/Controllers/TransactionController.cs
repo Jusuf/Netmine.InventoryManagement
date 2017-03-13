@@ -12,9 +12,12 @@ using Netmine.InventoryManager.Web.ViewModels;
 using Netmine.InventoryManager.Web.Models.Enums;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Netmine.InventoryManager.Web.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     public class TransactionController : Controller
     {
@@ -41,7 +44,9 @@ namespace Netmine.InventoryManager.Web.Controllers
         [HttpGet]
         public IEnumerable<Transaction> Get()
         {
-            return TransactionRepository.Query().ToList();
+            return TransactionRepository.Query()
+                .Include(x => x.Article)
+                .Include(x => x.Rack).ToList();
         }
 
         [HttpGet]

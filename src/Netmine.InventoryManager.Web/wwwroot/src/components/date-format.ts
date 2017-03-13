@@ -14,4 +14,14 @@ export class DateFormatValueConverter {
     getDate() {
         return moment().toDate();
     }
+
+    static convertDate(value) {
+        if (moment.isDate(value)) {
+            return moment(value).format("D/M/YYYY");
+        }
+        else {
+            var dateFromString = new Date(value);
+            return moment(dateFromString).format("D/M/YYYY");
+        }
+    }
 }

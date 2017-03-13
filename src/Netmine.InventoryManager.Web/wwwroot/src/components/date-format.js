@@ -22,6 +22,15 @@ System.register(["moment"], function(exports_1, context_1) {
                 getDate() {
                     return moment_1.default().toDate();
                 }
+                static convertDate(value) {
+                    if (moment_1.default.isDate(value)) {
+                        return moment_1.default(value).format("D/M/YYYY");
+                    }
+                    else {
+                        var dateFromString = new Date(value);
+                        return moment_1.default(dateFromString).format("D/M/YYYY");
+                    }
+                }
             }
             exports_1("DateFormatValueConverter", DateFormatValueConverter);
         }

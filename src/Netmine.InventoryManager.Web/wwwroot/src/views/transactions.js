@@ -16,7 +16,7 @@ System.register(["aurelia-framework", "aurelia-fetch-client", 'aurelia-router', 
         });
     };
     var aurelia_framework_1, aurelia_fetch_client_1, aurelia_router_1, date_format_1;
-    var Transactions;
+    var Transactions, TransactionType;
     return {
         setters:[
             function (aurelia_framework_1_1) {
@@ -32,7 +32,6 @@ System.register(["aurelia-framework", "aurelia-fetch-client", 'aurelia-router', 
                 date_format_1 = date_format_1_1;
             }],
         execute: function() {
-            //import "datatables";
             let Transactions = class Transactions {
                 constructor(http, json, router, dateFormat) {
                     this.http = http;
@@ -59,7 +58,7 @@ System.register(["aurelia-framework", "aurelia-fetch-client", 'aurelia-router', 
                         orderNumber: this.orderNumber,
                         rackId: this.rackId,
                         amount: this.amount,
-                        transactionType: 30,
+                        transactionType: TransactionType.Received,
                         articleId: this.selectedArticleId
                     };
                     this.http.fetch("transaction/", {
@@ -144,17 +143,67 @@ System.register(["aurelia-framework", "aurelia-fetch-client", 'aurelia-router', 
                         let response = yield this.http.fetch("transaction");
                         this.transactions = yield response.json();
                         var table = $('#transactiontable').DataTable({
+                            "language": { "url": "../../language/SwedishDataTables.json" },
                             data: this.transactions,
                             columns: [
-                                { "data": "transactionType", title: "Typ" },
-                                { "data": "orderOut", title: "Ordernr ut" },
-                                { "data": "orderIn", title: "Ordernr in" },
-                                { "data": "articleNumber", title: "Artnr." },
-                                { "data": "articleName", title: "Benämning" },
+                                {
+                                    "data": "transactionType",
+                                    title: "Typ",
+                                    "width": "10%",
+                                    "render": function (data, type, row) {
+                                        var transactionType = '';
+                                        if (data == TransactionType.Received) {
+                                            return transactionType = 'Inleverans';
+                                        }
+                                        if (data == TransactionType.Sent) {
+                                            return transactionType = 'Utleverans';
+                                        }
+                                        if (data == TransactionType.Adjust) {
+                                            return transactionType = 'Justering';
+                                        }
+                                        if (data == TransactionType.Damaged) {
+                                            return transactionType = 'Skadat';
+                                        }
+                                    },
+                                },
+                                {
+                                    "data": "orderNumber",
+                                    title: "Ordernr ut",
+                                    width: "10%",
+                                    "render": function (data, type, row) {
+                                        var orderNumberOut = '';
+                                        if (row.transactionType == TransactionType.Sent) {
+                                            return orderNumberOut = data;
+                                        }
+                                        else {
+                                            return orderNumberOut = '';
+                                        }
+                                    }
+                                },
+                                {
+                                    "data": "orderNumber",
+                                    title: "Ordernr in",
+                                    "render": function (data, type, row) {
+                                        var orderNumberIn = '';
+                                        if (row.transactionType == TransactionType.Received) {
+                                            return orderNumberIn = data;
+                                        }
+                                        else {
+                                            return orderNumberIn = '';
+                                        }
+                                    }
+                                },
+                                { "data": "article.number", title: "Artnr." },
+                                { "data": "article.name", title: "Benämning" },
                                 { "data": "batchNumber", title: "Batchnr" },
                                 { "data": "amount", title: "Antal" },
-                                { "data": "rackName", title: "Lagerplats" },
-                                { "data": "date", title: "Datum" }
+                                { "data": "rack.name", title: "Lagerplats" },
+                                {
+                                    "data": "date", title: "Datum",
+                                    "render": function (data, type, row) {
+                                        return date_format_1.DateFormatValueConverter.convertDate(data);
+                                    }
+                                }
                             ]
                         });
                     });
@@ -164,6 +213,13 @@ System.register(["aurelia-framework", "aurelia-fetch-client", 'aurelia-router', 
                 aurelia_framework_1.inject(aurelia_fetch_client_1.HttpClient, aurelia_fetch_client_1.json, aurelia_router_1.Router, date_format_1.DateFormatValueConverter)
             ], Transactions);
             exports_1("Transactions", Transactions);
+            (function (TransactionType) {
+                TransactionType[TransactionType["Received"] = 10] = "Received";
+                TransactionType[TransactionType["Sent"] = 20] = "Sent";
+                TransactionType[TransactionType["Adjust"] = 30] = "Adjust";
+                TransactionType[TransactionType["Damaged"] = 40] = "Damaged";
+            })(TransactionType || (TransactionType = {}));
+            exports_1("TransactionType", TransactionType);
         }
     }
 });
