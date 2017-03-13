@@ -8,6 +8,7 @@ export class Orders {
     router: Router;
     selectedOrder: IOrderDetails;
     activeOrders: Array<IOrder>;
+    takeAmount: Array<number>;
 
     constructor(private http: HttpClient, json, router: Router) {
         http.configure(config => {
@@ -39,6 +40,49 @@ export class Orders {
                     this.selectedOrder = data.value;
                 }),
         ]);
+    }
+
+    completeOrder(order) {
+
+        var totalAmount = 0;
+
+        if (!order) {
+            alert("No order selected");
+            return;
+        }
+
+        if (this.selectedOrder.orderRows.length == 0) {
+            alert("Ordern har inga orderrader!");
+            return;
+        }
+
+        this.selectedOrder.cargo.forEach((function (cargoItem) {
+            if (cargoItem.takeAmount > cargoItem.amount) {
+                alert("Du kan inte ta mer än vad som finns på lager!");
+                return;
+            }
+
+            totalAmount += cargoItem.takeAmount;
+        }));
+
+        if (totalAmount == 0) {
+            alert("Du måste ta mer än noll av något!");
+            return;
+        }
+
+        this.selectedOrder.cargo;
+        //send order ID and cargo array
+        this.http.fetch("order/complete", {
+            method: "post",
+            body: json(this.selectedOrder)
+
+        }).then(response => {
+            {
+                console.log("Order complete: ", response);
+
+                //todo: refresh page...
+            }
+        });
     }
 }
 
@@ -75,6 +119,7 @@ export interface ICargo {
     batchNumber: string;
     blockedAmount: number;
     rackName: string;
+    takeAmount: number;
 }
 
 enum OrderStatus {

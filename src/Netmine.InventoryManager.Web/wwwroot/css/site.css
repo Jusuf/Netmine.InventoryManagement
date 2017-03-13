@@ -173,3 +173,37 @@ section {
 .order-row:hover {
     cursor: pointer;
 }
+
+#order-rows p {
+    color: white;
+}
+
+.blue-background {
+    background-color: #00acec;
+}
+
+.box .box-header {
+    font-size: 21px;
+    font-weight: 200;
+    line-height: 30px;
+    padding: 10px 15px;
+}
+
+.box {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.blue-border {
+    border-color: #00acec !important;
+}
+
+.box-content.box-no-padding {
+    padding: 0;
+}
+
+.responsive-table .scrollable-area {
+    width: 100%;
+    overflow: scroll;
+    overflow-y: hidden;
+}

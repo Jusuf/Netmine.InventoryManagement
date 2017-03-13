@@ -13,6 +13,8 @@ namespace Netmine.InventoryManager.Web.ViewModels
 
         public decimal Amount { get; set; }
 
+        public string ArticleNumber { get; set; }
+
         public string ArticleName { get; set; }
     }
 }

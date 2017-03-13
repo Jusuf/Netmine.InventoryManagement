@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Netmine.InventoryManager.Web.Controllers
 {
@@ -19,6 +20,8 @@ namespace Netmine.InventoryManager.Web.Controllers
         public IOrderRepository OrderRepository { get; set; }
         public IOrderRowRepository OrderRowRepository { get; set; }
         public ICargoRepository CargoRepository { get; set; }
+        public IArticleRepository ArticleRepository { get; set; }
+        public ITransactionRepository TransactionRepository { get; set; }
 
         private UserManager<ApplicationUser> UserManager;
 
@@ -26,6 +29,8 @@ namespace Netmine.InventoryManager.Web.Controllers
             IOrderRepository orderRepository,
             IOrderRowRepository orderRowRepository,
             ICargoRepository cargoRepository,
+            IArticleRepository articleRepository,
+            ITransactionRepository transactionRepository,
             UserManager<ApplicationUser> userManager,
             IHttpContextAccessor contextAccessor)
         {
@@ -33,6 +38,8 @@ namespace Netmine.InventoryManager.Web.Controllers
             OrderRepository = orderRepository;
             OrderRowRepository = orderRowRepository;
             CargoRepository = cargoRepository;
+            ArticleRepository = articleRepository;
+            TransactionRepository = transactionRepository;
         }
 
         [HttpGet]
@@ -73,6 +80,87 @@ namespace Netmine.InventoryManager.Web.Controllers
                 .Where(x => x.Order.Id == id).ToList();
         }
 
+        [HttpPost]
+        [Route("complete/", Name = "CompleteOrder")]
+        public async Task<IActionResult> Post([FromBody] OrderDetailsViewModel order)
+        {
+            var currentUser = new ApplicationUser();
+            var totalTakeAmount = 0;
+
+            try
+            {
+                var user = await UserManager.GetUserAsync(User);
+                currentUser = user;
+            }
+            catch (Exception)
+            {
+                return Unauthorized();
+            }
+
+            try
+            {
+                if (currentUser == null) return Unauthorized();
+                //create transaction record for each cargo item
+                foreach (var cargo in order.Cargo)
+                {
+                    if (cargo.TakeAmount == 0) break;
+
+                    totalTakeAmount += cargo.TakeAmount;
+
+                    var cargoObject = CargoRepository.Query()
+                        .Where(x => x.Id == cargo.Id)
+                        .Include(x => x.Rack)
+                        .Include(x => x.Article)
+                        .FirstOrDefault();
+
+                    var articleObject = cargoObject.Article;
+
+                    var transaction = new Transaction();
+                    transaction.Article = articleObject;
+                    transaction.Rack = cargoObject.Rack;
+                    transaction.CreatedBy = currentUser;
+                    transaction.TransactionType = TransactionTypes.Sent;
+                    transaction.BatchNumber = cargoObject.BatchNumber;
+                    transaction.OrderNumber = Convert.ToString(order.Id);
+                    transaction.Amount = cargo.TakeAmount;
+                    transaction.Date = DateTime.UtcNow;
+
+                    TransactionRepository.Insert(transaction);
+                    TransactionRepository.Save();
+    
+                    // Subtract the taken amount
+                    cargoObject.Amount -= cargo.TakeAmount;
+
+                    if (cargoObject.Amount <= 0)
+                        CargoRepository.Delete(cargoObject.Id);
+                    else
+                        CargoRepository.Update(cargoObject);
+
+                    CargoRepository.Save();
+                }
+
+                if (totalTakeAmount <= 0)
+                {
+                    return BadRequest();
+                }
+
+                // Set order status to completed
+                var orderObject = OrderRepository.GetById(order.Id);
+                orderObject.Status = OrderStatus.Completed;
+                OrderRepository.Update(orderObject);
+                OrderRepository.Save();
+
+                // TODO
+                //send mail to user (Order färdig)
+                return Ok("Order completed.");
+            }
+            catch (Exception ex)
+            {
+                return Json("Error: " + ex);
+            }
+
+        }
+
         [HttpGet]
         [Route("details/{id}", Name = "GetDetails")]
         public async Task<dynamic> Details(Guid id)
@@ -104,6 +192,7 @@ namespace Netmine.InventoryManager.Web.Controllers
                     {
                         Id = row.Id,
                         Amount = row.Amount,
+                        ArticleNumber = row.Article.Number,
                         ArticleName = row.Article.Name
                     });
 
@@ -120,7 +209,8 @@ namespace Netmine.InventoryManager.Web.Controllers
                             Amount = item.Amount,
                             BatchNumber = item.BatchNumber,
                             BlockedAmount = item.BlockedAmount,
-                            RackName = item.Rack.Name
+                            RackName = item.Rack.Name,
+                            TakeAmount = 0
                         });
                     }
                 }
@@ -138,7 +228,7 @@ namespace Netmine.InventoryManager.Web.Controllers
                     OrderRows = orderRowViewModels,
                     Cargo = cargoViewModels
                 };
-
+                //kolla cargo om den returnerar rätt
                 return Ok(orderDetails);
             }
             catch

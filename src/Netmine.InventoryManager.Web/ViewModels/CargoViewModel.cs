@@ -18,5 +18,7 @@ namespace Netmine.InventoryManager.Web.ViewModels
         public decimal BlockedAmount { get; set; }
 
         public string RackName { get; set; }
+
+        public int TakeAmount { get; set; }
     }
 }

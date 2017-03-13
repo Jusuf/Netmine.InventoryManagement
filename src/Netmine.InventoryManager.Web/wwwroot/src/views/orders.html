@@ -23,32 +23,41 @@
             <p>Postnr: ${selectedOrder.zipCode}</p>
             <p>Ort: ${selectedOrder.city}</p>
             <p>Meddelande: ${selectedOrder.message}</p>
-            <i style="cursor: pointer;" title="Ta bort" class='glyphicon glyphicon-trash'></i>
+            <i style="cursor: pointer; margin: 10px;" title="Ta bort" class='glyphicon glyphicon-trash'></i>
         </div>
 
-        <div class="panel-heading" repeat.for="orderRow of selectedOrder.orderRows">
-            <div id="order-row">
-                Artikel:${orderRow.articleName}
-                Antal: ${orderRow.amount}
+        <div id="order-rows" class="box bordered-box blue-border" repeat.for="orderRow of selectedOrder.orderRows">
+            <div id="order-row" class="box-header blue-background">
+                <p>Artikelnr:${orderRow.articleNumber}</p>
+                <p>Artikel:${orderRow.articleName}</p>
+                <p>Antal: ${orderRow.amount}</p>
             </div>
 
-            <table repeat.for="cargoItem of selectedOrder.cargo">
-                <tr>
-                    <th>Lagerplats</th>
-                    <th>Batchnr</th>
-                    <th>Antal kilo</th>
-                    <th>Plocka</th>
-                </tr>
-                <tr>
-                    <td>${cargoItem.rackName}</td>
-                    <td>${cargoItem.batchNumber}</td>
-                    <td>${cargoItem.amount}</td>
-                    <td><input type="text" placeholder="antal"</td>
-                </tr>
-            </table>
+            <div class="box-content box-no-padding">
+                <div class="scrollable-area">
+                    <table id="order-rows" class="table table-responsive" repeat.for="cargoItem of selectedOrder.cargo">
+                        <thead>
+                            <tr>
+                                <th>Lagerplats</th>
+                                <th>Batchnr</th>
+                                <th>Antal kilo</th>
+                                <th>Plocka</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>${cargoItem.rackName}</td>
+                                <td>${cargoItem.batchNumber}</td>
+                                <td>${cargoItem.amount}</td>
+                                <td><input type="text" placeholder="antal" value.bind="cargoItem.takeAmount" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
 
-        <div class="btn btn-primary btn-lg" click.delegate="completeOrder(order)">
+        <div class="btn btn-primary btn-lg" click.delegate="completeOrder(selectedOrder)">
             <i class="icon-save"></i>
             Slutför order
         </div>
