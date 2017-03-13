@@ -2,21 +2,17 @@
 import {HttpClient, json} from "aurelia-fetch-client";
 import {Router} from 'aurelia-router';
 import {DateFormatValueConverter} from '../../src/components/date-format';
-//import "datatables";
 
 @inject(HttpClient, json, Router, DateFormatValueConverter)
 
 export class Transactions {
-
     dateformat: DateFormatValueConverter;
-    self: this;
     router: Router;
 
     transactions: Array<ITransaction>;
     racks: Array<IRack>;
     articles: Array<IArticle>;
     selectedArticleId: string;
-
 
     statesSelect: string;
     stateSelected: string;
@@ -58,7 +54,7 @@ export class Transactions {
             orderNumber: this.orderNumber,
             rackId: this.rackId,
             amount: this.amount,
-            transactionType: 30,
+            transactionType: TransactionType.Received,
             articleId: this.selectedArticleId
         };
 
@@ -151,37 +147,102 @@ export class Transactions {
                 this.articles = data;
             });
     }
-    async displayDatatable(){
-    let response = await this.http.fetch("transaction");
-    this.transactions = await response.json();
-    var table = $('#transactiontable').DataTable({
-        data: this.transactions,
-        columns: [
-            { "data": "transactionType", title: "Typ" },
-            { "data": "orderOut", title: "Ordernr ut" },
-            { "data": "orderIn",title: "Ordernr in" },
-            { "data": "articleNumber",title: "Artnr." },
-            { "data": "articleName",title: "Benämning" },
-            { "data": "batchNumber",title: "Batchnr" },
-            { "data": "amount",title: "Antal" },
-            { "data": "rackName",title: "Lagerplats" },
-            { "data": "date",title: "Datum" }
-        ]
-    });
-}
+
+    async displayDatatable() {
+
+        let response = await this.http.fetch("transaction");
+
+        this.transactions = await response.json();
+        
+        var table = $('#transactiontable').DataTable({
+            "language": { "url": "../../language/SwedishDataTables.json"  } ,
+            data: this.transactions,
+            columns: [
+                {
+                    "data": "transactionType",
+                    title: "Typ",
+                    "width": "10%",
+                    "render": function (data, type, row) {
+
+                        var transactionType = '';
+
+                        if (data == TransactionType.Received) {
+                            return transactionType = 'Inleverans';
+                        }
+
+                        if (data == TransactionType.Sent) {
+                            return transactionType = 'Utleverans';
+                        }
+
+                        if (data == TransactionType.Adjust) {
+                            return transactionType = 'Justering';
+                        }
+
+                        if (data == TransactionType.Damaged) {
+                            return transactionType = 'Skadat';
+                        }
+                    },
+                },
+                {
+                    "data": "orderNumber",
+                    title: "Ordernr ut",
+                    width: "10%",
+                    "render": function (data, type, row) {
+
+                        var orderNumberOut = '';
+
+                        if (row.transactionType == TransactionType.Sent) {
+                            return orderNumberOut = data;
+                        }
+
+                        else {
+                            return orderNumberOut = '';
+                        }
+                    }
+                },
+                {
+                    "data": "orderNumber",
+                    title: "Ordernr in",
+                    "render": function (data, type, row) {
+
+                        var orderNumberIn = '';
+
+                        if (row.transactionType == TransactionType.Received) {
+                            return orderNumberIn = data;
+                        }
+
+                        else {
+                            return orderNumberIn = '';
+                        }
+                    }
+                },
+                { "data": "article.number", title: "Artnr." },
+                { "data": "article.name", title: "Benämning" },
+                { "data": "batchNumber", title: "Batchnr" },
+                { "data": "amount", title: "Antal" },
+                { "data": "rack.name", title: "Lagerplats" },
+                {
+                    "data": "date", title: "Datum",
+                    "render": function (data, type, row) {
+                        return DateFormatValueConverter.convertDate(data);
+                    }
+                }
+            ]
+        });
+    }
 
 }
 
 export interface ITransaction {
     id: string;
-    articleNumber: string;
+    article: IArticle;
     articleName: string;
     batchNumber: string;
     orderNumber: string;
     transactionType: number;
     amount: number;
     articleId: string;
-    rackId: string;
+    rack: IRack;
     date: string;
 }
 
@@ -195,4 +256,13 @@ export interface IArticle {
     number: string;
     name: string;
 }
+
+export enum TransactionType {
+    Received = 10,
+    Sent = 20,
+    Adjust = 30,
+    Damaged = 40
+}
+
+
 
