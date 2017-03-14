@@ -24,5 +24,8 @@
     "aurelia-templating-binding": "github:aurelia/templating-binding",
     "aurelia-templating-resources": "github:aurelia/templating-resources",
     "aurelia-templating-router": "github:aurelia/templating-router"
+  },
+  "globalDependencies": {
+    "toastr": "registry:dt/toastr#2.1.3+20161123234806"
   }
 }

@@ -19,7 +19,12 @@ System.config({
     "jquery": "npm:jquery@3.1.1",
     "jquery-ui": "npm:jquery-ui@1.12.1",
     "moment": "npm:moment@2.17.1",
+    "toastr": "github:CodeSeven/toastr@2.1.3",
     "typescript": "npm:typescript@2.2.0",
+    "github:CodeSeven/toastr@2.1.3": {
+      "css": "github:systemjs/plugin-css@0.1.33",
+      "jquery": "npm:jquery@3.1.1"
+    },
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.4.1"
     },
