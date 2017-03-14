@@ -1,4 +1,4 @@
-System.register(["aurelia-framework", "aurelia-fetch-client", 'aurelia-router', "toastr"], function(exports_1, context_1) {
+System.register(["aurelia-framework", "aurelia-fetch-client", 'aurelia-router'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -7,7 +7,7 @@ System.register(["aurelia-framework", "aurelia-fetch-client", 'aurelia-router', 
         else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
         return c > 3 && r && Object.defineProperty(target, key, r), r;
     };
-    var aurelia_framework_1, aurelia_fetch_client_1, aurelia_router_1, toastr;
+    var aurelia_framework_1, aurelia_fetch_client_1, aurelia_router_1;
     var Orders, OrderStatus;
     return {
         setters:[
@@ -19,9 +19,6 @@ System.register(["aurelia-framework", "aurelia-fetch-client", 'aurelia-router', 
             },
             function (aurelia_router_1_1) {
                 aurelia_router_1 = aurelia_router_1_1;
-            },
-            function (toastr_1) {
-                toastr = toastr_1;
             }],
         execute: function() {
             let Orders = class Orders {
@@ -36,7 +33,7 @@ System.register(["aurelia-framework", "aurelia-fetch-client", 'aurelia-router', 
                 }
                 activate() {
                     this.fetchOrdersByStatus(OrderStatus.Active);
-                    toastr.info('blah');
+                    toastr.info('test');
                 }
                 fetchOrdersByStatus(status) {
                     return this.http.fetch(`order/${status}`).

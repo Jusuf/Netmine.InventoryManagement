@@ -1,4 +1,5 @@
 ﻿/// <autosync enabled="true" />
+/// <reference path="../typings/toastr.js" />
 /// <reference path="config.js" />
 /// <reference path="js/site.js" />
 /// <reference path="lib/bootstrap/dist/js/bootstrap.js" />

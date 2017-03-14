@@ -1,7 +1,6 @@
 ﻿import {inject} from "aurelia-framework";
 import {HttpClient, json} from "aurelia-fetch-client";
 import {Router} from 'aurelia-router';
-import * as toastr from "toastr";
 
 @inject(HttpClient, json, Router)
 export class Orders {
